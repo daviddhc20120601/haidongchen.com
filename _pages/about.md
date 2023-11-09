@@ -7,27 +7,19 @@ redirect_from:
   - /about.html
 ---
 
-# Meet Your Sixth Grade Computer Teacher
+#Chencheng- a proud Singaporean
 
-Hello, young tech enthusiasts! 👋
+Hello, everybody! 👋
 
-![foo-bar-identity.jpg](https://daviddhc20120601.github.io/academicpages.github.io/images/foo-bar-identity.jpg)
+![Screenshot 2023-02-14 205825](https://github.com/JIANG9267J/academicpages.github.io/assets/150253670/1d688c69-1ec4-4e53-bb01-0a5a4018f707)
 
-I'm thrilled to introduce your incredible Sixth Grade Computer Teacher, Mr. Daviddhc20120601! He's not just any teacher; he's a digital wizard who will guide you through the exciting world of computer science and technology.
+I'm thrilled to introduce myself to all of you.
+## About Me
 
-## About Mr. Daviddhc20120601
-
-👩‍🏫 **Name:** Mr. Daviddhc20120601
+👩‍🏫 **Name:** Chencheng
 
 🏫 **Grade:** Sixth Grade
 
-🖥️ **Subject:** Computer Science
+🖥️ **Favourite Subject:** Science
 
-With a passion for all things tech and years of experience in making coding, programming, and digital creativity accessible to young minds, Mr. Daviddhc20120601 is here to make learning about computers a blast!
-
-## What to Expect
-
-In Mr. Daviddhc20120601's class, you'll embark on an epic journey into the realms of programming, web development, and all the fun aspects of technology. You'll get hands-on experience with computers, learn to code, and even create your own digital masterpieces. Mr. Daviddhc20120601's class is the gateway to a world of endless possibilities.
-
-So, get ready to explore, learn, and code your way to success under the expert guidance of Mr. Daviddhc20120601. Your computer adventure is about to begin!
-
+With a passion for Science, especially biology and chemistry, I love to question about things in daily life. My hobbies include reading, collecting stamps, and gardening.
