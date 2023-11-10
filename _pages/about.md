@@ -10,8 +10,7 @@ redirect_from:
 #Chencheng- a proud Singaporean
 
 Hello, everybody! 👋
-
-![Screenshot 2023-02-14 205825](https://github.com/JIANG9267J/academicpages.github.io/assets/150253670/1d688c69-1ec4-4e53-bb01-0a5a4018f707)
+![OIG](https://github.com/JIANG9267J/academicpages.github.io/assets/150253670/88c3263d-fa28-44b5-a9b6-ee991c435c14)
 
 I'm thrilled to introduce myself to all of you.
 ## About Me
