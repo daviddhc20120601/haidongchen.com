@@ -1,4 +1,0 @@
-# Redirect API requests to their respective JSON files
-/api/* /api/:splat 200
-# SPA fallback
-/* /index.html 200
