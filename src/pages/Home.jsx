@@ -1,4 +1,5 @@
 // src/pages/Home.jsx
+// todo: add medium page on the left side bar
 import React from 'react';
 import { Link } from 'react-router-dom';
 
