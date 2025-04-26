@@ -1,0 +1,79 @@
+name: Deploy on Content Change
+
+on:
+  push:
+    branches:
+      - main  # or master, depending on your default branch name
+    paths:
+      - 'public/content/**/*.md'  # Only trigger on markdown file changes in content directory
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for proper deployment
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Using a more stable version
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Generate JSON from Markdown
+        run: node scripts/generateJsonFromMarkdown.js
+        
+      - name: Build site
+        run: npm run build
+        
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # The branch the action should deploy to
+          folder: dist      # The folder the action should deploy
+          clean: true       # Automatically remove deleted files from the deploy branch
+          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically provides this token
+
+      # Only run DingTalk notification if the secret exists
+      - name: Notify DingTalk
+        if: success() && secrets.DINGTALK_WEBHOOK_URL != ''
+        uses: timonwong/dingtalk-action@v1
+        with:
+          url: ${{ secrets.DINGTALK_WEBHOOK_URL }}
+          type: markdown
+          content: |
+            ### 🎉 haidongchen.com Deployment Successful
+
+            **Repository:** ${{ github.repository }}
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            **Triggered By:** ${{ github.actor }}
+
+            Content changes have been published to GitHub Pages.
+            [View the website](https://daviddhc20120601.github.io)
+        continue-on-error: true
+
+      # Only run ntfy notification if the secret exists
+      - name: Notify ntfy
+        if: success() && secrets.NTFY_WEBHOOK_URL != ''
+        run: |
+          curl -H "Title: Website Deployment Successful" \
+               -H "Priority: default" \
+               -H "Tags: white_check_mark" \
+               -d "Content changes for ${{ github.repository }} have been published to GitHub Pages." \
+               ${{ secrets.NTFY_WEBHOOK_URL }}
+        continue-on-error: true
+
+      - name: Notify on success
+        run: |
+          echo "🎉 Deployment completed successfully!"
+          echo "New content changes have been published."
+          echo "Deployed to: https://daviddhc20120601.github.io"
