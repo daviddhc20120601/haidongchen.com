@@ -1,16 +1,18 @@
 // src/pages/Publication.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
+import mermaid from 'mermaid';
 
 export default function Publication() {
   const { id } = useParams();
   const [publication, setPublication] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     async function fetchPublication() {
@@ -62,6 +64,26 @@ export default function Publication() {
     fetchPublication();
   }, [id]);
 
+  // Initialize Mermaid when content changes
+  useEffect(() => {
+    if (publication?.content && contentRef.current) {
+      // Initialize Mermaid with configuration
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'default',
+        securityLevel: 'loose'
+      });
+
+      try {
+        // Find all mermaid code blocks and render them
+        const mermaidDivs = contentRef.current.querySelectorAll('.mermaid');
+        mermaid.init(undefined, mermaidDivs);
+      } catch (error) {
+        console.error('Mermaid rendering error:', error);
+      }
+    }
+  }, [publication?.content]);
+
   // Format date to a more readable format (December 5, 2023)
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -109,7 +131,7 @@ export default function Publication() {
         )}
       </div>
 
-      <div className="publication-content markdown-content">
+      <div ref={contentRef} className="publication-content markdown-content">
         <ReactMarkdown
           rehypePlugins={[rehypeRaw, rehypeSanitize]}
           remarkPlugins={[remarkGfm]}

@@ -1,7 +1,7 @@
 // src/pages/Talks.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getMarkdownFiles } from '../utils/MarkdownService.js';
+import { getMarkdownFiles } from '../utils/MarkdownService.jsx';
 
 export default function Talks() {
   const [talks, setTalks] = useState([]);
@@ -10,12 +10,14 @@ export default function Talks() {
 
   useEffect(() => {
     async function loadTalks() {
+      setIsLoading(true); // Start loading
+      setError(null); // Reset error
       try {
         const files = await getMarkdownFiles('talks');
         setTalks(files);
       } catch (err) {
         console.error('Error loading talks:', err);
-        setError('Failed to load talks. Using demo data instead.');
+        setError(`Failed to load talks data. ${err.message}`);
         // Fallback data
         setTalks([
           {
@@ -83,3 +85,4 @@ export default function Talks() {
     </div>
   );
 }
+

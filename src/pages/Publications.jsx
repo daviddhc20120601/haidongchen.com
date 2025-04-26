@@ -1,7 +1,7 @@
 // src/pages/Publications.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getMarkdownFiles } from '../utils/MarkdownService.js';
+import { getMarkdownFiles } from '../utils/MarkdownService.jsx';
 
 export default function Publications() {
   const [publications, setPublications] = useState([]);
@@ -10,12 +10,14 @@ export default function Publications() {
 
   useEffect(() => {
     async function loadPublications() {
+      setIsLoading(true); // Start loading
+      setError(null); // Reset error
       try {
         const files = await getMarkdownFiles('publications');
         setPublications(files);
       } catch (err) {
         console.error('Error loading publications:', err);
-        setError('Failed to load publications. Using demo data instead.');
+        setError(`Failed to load publications data. ${err.message}`);
         // Fallback data
         setPublications([
           {
@@ -86,3 +88,4 @@ export default function Publications() {
     </div>
   );
 }
+

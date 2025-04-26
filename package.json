@@ -6,13 +6,15 @@
   "homepage": "https://daviddhc20120601.github.io",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
+    "build": "node scripts/generateJsonFromMarkdown.js && vite build",
+    "generate-json": "node scripts/generateJsonFromMarkdown.js",
     "lint": "eslint vite_refactor/academic-site --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview --host 0.0.0.0",
-    "predeploy": "npm run build",
+    "preview": "node scripts/generateJsonFromMarkdown.js && vite preview --host 0.0.0.0",
+    "predeploy": "node scripts/generateJsonFromMarkdown.js && npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "mermaid": "^10.9.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",

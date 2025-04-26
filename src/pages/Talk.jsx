@@ -1,16 +1,19 @@
 // src/pages/Talk.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
+// Import mermaid correctly
+import mermaid from 'mermaid';
 
 export default function Talk() {
   const { id } = useParams();
   const [talk, setTalk] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     async function fetchTalk() {
@@ -34,14 +37,14 @@ export default function Talk() {
           const titleMatch = frontmatter.match(/title:\s*["']?(.*?)["']?(\n|$)/);
           const dateMatch = frontmatter.match(/date:\s*["']?(.*?)["']?(\n|$)/);
           const venueMatch = frontmatter.match(/venue:\s*["']?(.*?)["']?(\n|$)/);
-          const locationMatch = frontmatter.match(/location:\s*["']?(.*?)["']?(\n|$)/);
           const typeMatch = frontmatter.match(/type:\s*["']?(.*?)["']?(\n|$)/);
+          const locationMatch = frontmatter.match(/location:\s*["']?(.*?)["']?(\n|$)/);
 
           if (titleMatch) metadata.title = titleMatch[1].trim();
           if (dateMatch) metadata.date = dateMatch[1].trim();
           if (venueMatch) metadata.venue = venueMatch[1].trim();
-          if (locationMatch) metadata.location = locationMatch[1].trim();
           if (typeMatch) metadata.type = typeMatch[1].trim();
+          if (locationMatch) metadata.location = locationMatch[1].trim();
         }
 
         // Remove frontmatter before setting content
@@ -62,7 +65,57 @@ export default function Talk() {
     fetchTalk();
   }, [id]);
 
-  // Format date to a more readable format (December 5, 2023)
+  // Initialize mermaid just once when component mounts
+  useEffect(() => {
+    // Initialize mermaid with simple configuration
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      securityLevel: 'loose',
+      fontFamily: 'sans-serif'
+    });
+  }, []);
+
+  // Run mermaid render after content is loaded and rendered
+  useEffect(() => {
+    if (talk?.content && contentRef.current) {
+      // Use a timeout to ensure DOM has finished rendering
+      const timer = setTimeout(() => {
+        try {
+          // Simple direct call to mermaid.init
+          mermaid.init(undefined, '.mermaid');
+        } catch (err) {
+          console.error('Mermaid rendering error:', err);
+        }
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [talk?.content]);
+
+  // Custom component for code blocks to properly handle Mermaid diagrams
+  const components = {
+    code({ node, inline, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || '');
+      const language = match && match[1];
+
+      if (!inline && language === 'mermaid') {
+        const value = String(children).replace(/\n$/, '');
+        return (
+          <div className="mermaid">
+            {value}
+          </div>
+        );
+      }
+      return (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
+    }
+  };
+
+  // Format date to a more readable format
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -76,7 +129,7 @@ export default function Talk() {
   if (isLoading) return (
     <div className="loading-container">
       <div className="loading-spinner"></div>
-      <p>Loading talk details...</p>
+      <p>Loading talk...</p>
     </div>
   );
 
@@ -105,10 +158,11 @@ export default function Talk() {
         )}
       </div>
 
-      <div className="talk-content markdown-content">
+      <div ref={contentRef} className="talk-content markdown-content">
         <ReactMarkdown
           rehypePlugins={[rehypeRaw, rehypeSanitize]}
           remarkPlugins={[remarkGfm]}
+          components={components}
         >
           {talk.content}
         </ReactMarkdown>
@@ -120,3 +174,4 @@ export default function Talk() {
     </div>
   );
 }
+

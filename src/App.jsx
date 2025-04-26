@@ -7,7 +7,8 @@ import Publications from "./pages/Publications.jsx";
 import Publication from "./pages/Publication.jsx";
 import Talks from "./pages/Talks.jsx";
 import Talk from "./pages/Talk.jsx";
-import MarkdownPage from "./components/MarkdownPage.jsx";
+// Update the import path to use .jsx extension
+import { MarkdownRenderer } from "./utils/MarkdownService.jsx";
 import React from "react";
 
 function App() {
@@ -20,8 +21,9 @@ function App() {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<MarkdownPage filePath="/content/pages/about.md" />} />
-              <Route path="/research" element={<MarkdownPage filePath="/content/pages/research.md" />} />
+              {/* Use the renamed component */}
+              <Route path="/about" element={<MarkdownRenderer filePath="/content/pages/about.md" />} />
+              <Route path="/research" element={<MarkdownRenderer filePath="/content/pages/research.md" />} />
               <Route path="/publications" element={<Publications />} />
               <Route path="/publication/:id" element={<Publication />} />
               <Route path="/talks" element={<Talks />} />
