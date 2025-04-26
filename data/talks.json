@@ -1,5 +1,16 @@
 [
   {
+    "id": "2025-04-26-quant-mcp-server-finance",
+    "title": "Quant MCP Server: Augmenting LLMs with Real-Time Financial Data",
+    "collection": "talks",
+    "type": "Talk",
+    "venue": "",
+    "location": "Singapore",
+    "date": "2025-04-26",
+    "excerpt": "# Quant MCP Server: Augmenting LLMs with Real-Time Financial Data",
+    "filename": "2025-04-26-quant-mcp-server-finance.md"
+  },
+  {
     "id": "2025-04-17-blog",
     "title": "Bridging the Knowledge Gap: How MCP Server Leverages Web Search and LLMs",
     "collection": "talks",
