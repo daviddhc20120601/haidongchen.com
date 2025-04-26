@@ -1,0 +1,48 @@
+[
+  {
+    "id": "2025-04-17-blog",
+    "title": "Bridging the Knowledge Gap: How MCP Server Leverages Web Search and LLMs",
+    "collection": "talks",
+    "type": "Talk",
+    "venue": "",
+    "date": "2025-04-17",
+    "location": "Singapore",
+    "excerpt": "# Bridging the Knowledge Gap: How MCP Server Leverages Web Search and LLMs",
+    "filename": "2025-04-17-blog.md"
+  },
+  {
+    "id": "2025-04-16-blog",
+    "title": "How LLM understands the timeseries data",
+    "collection": "talks",
+    "type": "Talk",
+    "venue": "",
+    "date": "2025-04-16",
+    "location": "Singapore",
+    "excerpt": "# How Large Language Models Understand Time-Series Data",
+    "filename": "2025-04-16-blog.md"
+  },
+  {
+    "id": "2023-10-20-talk",
+    "title": "Machine learning and it's potential in a data rich space such as MICE",
+    "collection": "talks",
+    "type": "Talk",
+    "permalink": "/talks/2023-10-20-talk",
+    "venue": "HUONE Singapore Meeting and Event Venue",
+    "date": "2023-10-20",
+    "location": "Singapore",
+    "excerpt": "[more info here](https://www.linkedin.com/posts/saceos_mice-tourism-activity-7120961779467255809-Qv0A?utm_source=share&utm_medium=member_desktop)",
+    "filename": "2023-10-20-talk.md"
+  },
+  {
+    "id": "2023-10-12-talk",
+    "title": "Gen-AI Solutions on the Edge",
+    "collection": "talks",
+    "type": "Talk",
+    "permalink": "/talks/2023-10-12-talk",
+    "venue": "Hybrid, Edge & AI-Powered Cloud Keynote Theatre, Marina Bay Sands Singapore",
+    "date": "2023-10-12",
+    "location": "Singapore",
+    "excerpt": "[More information here](http://exampleurl.com)",
+    "filename": "2023-10-12-talk.md"
+  }
+]
