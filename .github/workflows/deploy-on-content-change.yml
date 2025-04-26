@@ -3,7 +3,9 @@ name: Deploy on Content Change
 on:
   push:
     branches:
-      - master  # or master, depending on your default branch name
+      - master
+    paths:
+      - 'public/**/*.md'  # Only trigger when .md files in public directory or subdirectories change
   # Allow manual triggering
   workflow_dispatch:
 
