@@ -48,7 +48,7 @@ jobs:
         run: |
           if [ -n "$DINGTALK_WEBHOOK_URL" ]; then
             # Prepare markdown message
-            MSG="### 🎉 haidongchen.com Deployment Successful\n\n**Repository:** ${{ github.repository }}\n**Branch:** ${{ github.ref_name }}\n**Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n**Triggered By:** ${{ github.actor }}\n\nContent changes have been published to GitHub Pages.\n[View the website](https://daviddhc20120601.github.io)"
+            MSG="### 🎉 haidongchen.com Deployment Successful\n\n**Repository:** ${{ github.repository }}\n**Branch:** ${{ github.ref_name }}\n**Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n**Triggered By:** ${{ github.actor }}\n\nContent changes have been published to GitHub Pages.\n[View the website](https://haidongchen.com)"
             
             # Send to DingTalk
             curl -X POST "$DINGTALK_WEBHOOK_URL" \
