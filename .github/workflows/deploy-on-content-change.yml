@@ -3,9 +3,7 @@ name: Deploy on Content Change
 on:
   push:
     branches:
-      - main  # or master, depending on your default branch name
-    paths:
-      - 'public/content/**/*.md'  # Only trigger on markdown file changes in content directory
+      - master  # or master, depending on your default branch name
   # Allow manual triggering
   workflow_dispatch:
 
@@ -42,25 +40,25 @@ jobs:
           clean: true       # Automatically remove deleted files from the deploy branch
           token: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically provides this token
 
-      # Notify DingTalk if configured
+      # Notify DingTalk if configured (using curl instead of action)
       - name: Notify DingTalk
         if: success()
         env:
           DINGTALK_WEBHOOK_URL: ${{ secrets.DINGTALK_WEBHOOK_URL }}
-        uses: timonwong/dingtalk-action@v1
-        with:
-          url: ${{ env.DINGTALK_WEBHOOK_URL }}
-          type: markdown
-          content: |
-            ### 🎉 haidongchen.com Deployment Successful
-
-            **Repository:** ${{ github.repository }}
-            **Branch:** ${{ github.ref_name }}
-            **Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-            **Triggered By:** ${{ github.actor }}
-
-            Content changes have been published to GitHub Pages.
-            [View the website](https://daviddhc20120601.github.io)
+        run: |
+          if [ -n "$DINGTALK_WEBHOOK_URL" ]; then
+            # Prepare markdown message
+            MSG="### 🎉 haidongchen.com Deployment Successful\n\n**Repository:** ${{ github.repository }}\n**Branch:** ${{ github.ref_name }}\n**Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n**Triggered By:** ${{ github.actor }}\n\nContent changes have been published to GitHub Pages.\n[View the website](https://daviddhc20120601.github.io)"
+            
+            # Send to DingTalk
+            curl -X POST "$DINGTALK_WEBHOOK_URL" \
+                 -H "Content-Type: application/json" \
+                 -d "{\"msgtype\":\"markdown\",\"markdown\":{\"title\":\"Deployment Successful\",\"text\":\"$MSG\"}}"
+            
+            echo "DingTalk notification sent"
+          else
+            echo "DINGTALK_WEBHOOK_URL is not set, skipping notification"
+          fi
         continue-on-error: true
 
       # Notify ntfy if configured
@@ -74,7 +72,9 @@ jobs:
                  -H "Priority: default" \
                  -H "Tags: white_check_mark" \
                  -d "Content changes for ${{ github.repository }} have been published to GitHub Pages." \
-                 ${{ secrets.NTFY_WEBHOOK_URL }}
+                 "$NTFY_WEBHOOK_URL"
+            
+            echo "ntfy notification sent"
           else
             echo "NTFY_WEBHOOK_URL is not set, skipping notification"
           fi
