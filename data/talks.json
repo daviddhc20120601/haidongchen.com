@@ -5,7 +5,7 @@
     "collection": "talks",
     "type": "Talk",
     "venue": "Tech Conference 2025",
-    "date": "2025-04-26",
+    "date": "2025-04-26T00:00:00.000Z",
     "location": "Singapore",
     "excerpt": "# LLM in Realtime with Flink and Kafka",
     "filename": "2025-04-26-llm-in-realtime-with-flink-and-kafka.md"
@@ -17,7 +17,7 @@
     "type": "Talk",
     "venue": "",
     "location": "Singapore",
-    "date": "2025-04-26",
+    "date": "2025-04-26T00:00:00.000Z",
     "excerpt": "# Quant MCP Server: Augmenting LLMs with Real-Time Financial Data",
     "filename": "2025-04-26-quant-mcp-server-finance.md"
   },
@@ -27,7 +27,7 @@
     "collection": "talks",
     "type": "Talk",
     "venue": "",
-    "date": "2025-04-17",
+    "date": "2025-04-17T00:00:00.000Z",
     "location": "Singapore",
     "excerpt": "# Bridging the Knowledge Gap: How MCP Server Leverages Web Search and LLMs",
     "filename": "2025-04-17-blog.md"
@@ -38,7 +38,7 @@
     "collection": "talks",
     "type": "Talk",
     "venue": "",
-    "date": "2025-04-16",
+    "date": "2025-04-16T00:00:00.000Z",
     "location": "Singapore",
     "excerpt": "# How Large Language Models Understand Time-Series Data",
     "filename": "2025-04-16-blog.md"
@@ -50,7 +50,7 @@
     "type": "Talk",
     "permalink": "/talks/2023-10-20-talk",
     "venue": "HUONE Singapore Meeting and Event Venue",
-    "date": "2023-10-20",
+    "date": "2023-10-20T00:00:00.000Z",
     "location": "Singapore",
     "excerpt": "[more info here](https://www.linkedin.com/posts/saceos_mice-tourism-activity-7120961779467255809-Qv0A?utm_source=share&utm_medium=member_desktop)",
     "filename": "2023-10-20-talk.md"
@@ -62,7 +62,7 @@
     "type": "Talk",
     "permalink": "/talks/2023-10-12-talk",
     "venue": "Hybrid, Edge & AI-Powered Cloud Keynote Theatre, Marina Bay Sands Singapore",
-    "date": "2023-10-12",
+    "date": "2023-10-12T00:00:00.000Z",
     "location": "Singapore",
     "excerpt": "[More information here](http://exampleurl.com)",
     "filename": "2023-10-12-talk.md"

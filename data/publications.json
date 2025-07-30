@@ -5,7 +5,7 @@
     "collection": "publications",
     "permalink": "/publication/2023-12-05-GxP-Cloud-Adoption-Guidelines-Whitepaper",
     "excerpt": "Cloud computing is becoming increasingly popular in the digital transformation of the life science industry as it provides significant advantages in data security and operational convenience. However, due to the unique nature of the life science industry, the application of cloud computing technologies faces some inherent issues.",
-    "date": "2023-12-05",
+    "date": "2023-12-05T00:00:00.000Z",
     "venue": "Journal 1",
     "paperurl": "https://resource.alibabacloud.com/whitepaper/gxp-cloud-adoption-guidelines-whitepaper_7104?utm_content=m_1000385409",
     "citation": "GxP Cloud Adoption Guidelines Whitepaper (no date) GXP Cloud Adoption Guidelines whitepaper. Available at: https://resource.alibabacloud.com/whitepaper/gxp-cloud-adoption-guidelines-whitepaper_7104?utm_content=m_1000385409 (Accessed: 29 April 2024). ",
@@ -17,7 +17,7 @@
     "collection": "publications",
     "permalink": "/publication/2023-12-05-patent-CN117153334",
     "excerpt": "The present invention provides a deep learning prediction method and device for liver tumor ablation treatment. The method includes: collecting clinical information, tumor information and imaging images of patients; identifying and selecting radiofrequency ablation of liver tumors that may affect the liver tumor through a feature selection algorithm. Based on the relevant characteristics of the results, a deep learning prediction model is established based on the relevant characteristics, and the deep learning prediction model is trained and tested; the verified deep learning prediction model is applied to clinical work. The present invention applies algorithm capabilities to liver tumor ablation treatment plans through deep learning models, which helps optimize patient treatment plans and improve patient prognosis.",
-    "date": "2023-12-05",
+    "date": "2023-12-05T00:00:00.000Z",
     "venue": "Journal 1",
     "paperurl": "https://worldwide.espacenet.com/publicationDetails/biblio?CC=CN&NR=117153334A&KC=A&FT=D",
     "citation": "ZHANG LAN; XU XIN; REN ZHENGGANG; CHEN HAIDONG (2023). \"A deep learning prediction method and device for liver tumor ablation treatment 一种用于肝肿瘤消融治疗的深度学习预测方法及装置\" <i>Journal 1</i>. 1(3).",
@@ -27,7 +27,7 @@
     "id": "books",
     "title": "GxP Cloud Adoption Guidelines Whitepaper",
     "excerpt": "GxP Cloud Adoption Guidelines Whitepaper",
-    "sitemap": "true",
+    "sitemap": true,
     "filename": "books.md"
   }
 ]
