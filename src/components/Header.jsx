@@ -20,6 +20,7 @@ export default function Header() {
         <Link to="/about" className={isActive('/about') ? 'active' : ''}>About</Link>
         <Link to="/publications" className={isActive('/publications') ? 'active' : ''}>Publications</Link>
         <Link to="/talks" className={isActive('/talks') ? 'active' : ''}>Talks</Link>
+        <Link to="/books" className={isActive('/books') ? 'active' : ''}>小说创作</Link>
         <Link to="/research" className={isActive('/research') ? 'active' : ''}>Research</Link>
       </nav>
     </header>

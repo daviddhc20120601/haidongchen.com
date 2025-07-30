@@ -1051,6 +1051,619 @@ nav a.active {
   }
 }
 
+/* ===== BOOKS/NOVELS STYLES ===== */
+.books-container {
+  padding: 20px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.book-card {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: var(--transition-normal);
+  border: 1px solid #e0e6ed;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.book-cover {
+  background: var(--gradient-purple-blue);
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+}
+
+.book-cover-placeholder {
+  font-size: 3rem;
+  opacity: 0.8;
+}
+
+.book-info {
+  padding: 20px;
+}
+
+.book-title {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+}
+
+.book-title a {
+  color: var(--main-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.book-title a:hover {
+  color: var(--accent-color);
+}
+
+.book-author,
+.book-genre,
+.book-status,
+.book-chapters,
+.book-date {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.book-status.completed {
+  color: #27ae60;
+  font-weight: 600;
+}
+
+.book-status.ongoing {
+  color: #e67e22;
+  font-weight: 600;
+}
+
+.book-description {
+  margin: 10px 0;
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.book-actions {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.no-books {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-style: italic;
+}
+
+/* ===== BOOK READER STYLES ===== */
+.book-reader {
+  min-height: 100vh;
+  transition: var(--transition-normal);
+}
+
+.book-reader.light-theme {
+  background-color: #fefefe;
+  color: #333;
+}
+
+.book-reader.dark-theme {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.reading-controls {
+  position: sticky;
+  top: 0;
+  background: inherit;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dark-theme .reading-controls {
+  border-bottom-color: #444;
+}
+
+.controls-left,
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.controls-center {
+  flex: 1;
+  text-align: center;
+}
+
+.book-title-header {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.font-size-display {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 5px;
+}
+
+.dark-theme .font-size-display {
+  color: #aaa;
+}
+
+.book-metadata {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.metadata-item {
+  font-size: 0.9rem;
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.status-badge.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.ongoing {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.dark-theme .status-badge.completed {
+  background-color: #155724;
+  color: #d4edda;
+}
+
+.dark-theme .status-badge.ongoing {
+  background-color: #856404;
+  color: #fff3cd;
+}
+
+.book-description-meta {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.dark-theme .book-description-meta {
+  border-top-color: #444;
+}
+
+.book-content {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
+  line-height: 1.8;
+}
+
+.book-content .chapter-title {
+  font-size: 1.8rem;
+  margin: 30px 0 20px 0;
+  text-align: center;
+  color: var(--main-color);
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 10px;
+}
+
+.dark-theme .book-content .chapter-title {
+  color: #e0e0e0;
+}
+
+.book-content .section-title {
+  font-size: 1.4rem;
+  margin: 25px 0 15px 0;
+  color: var(--accent-color);
+}
+
+.dark-theme .book-content .section-title {
+  color: #5dade2;
+}
+
+.book-content .subsection-title {
+  font-size: 1.2rem;
+  margin: 20px 0 12px 0;
+  color: #555;
+}
+
+.dark-theme .book-content .subsection-title {
+  color: #bbb;
+}
+
+.book-content .paragraph {
+  margin: 15px 0;
+  text-indent: 2em;
+  text-align: justify;
+}
+
+.book-content .chapter-divider {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 1.2rem;
+  color: #666;
+  letter-spacing: 0.5em;
+}
+
+.dark-theme .book-content .chapter-divider {
+  color: #999;
+}
+
+.reading-footer {
+  background: inherit;
+  border-top: 1px solid #ddd;
+  padding: 15px 20px;
+  margin-top: 40px;
+  position: sticky;
+  bottom: 0;
+}
+
+.dark-theme .reading-footer {
+  border-top-color: #444;
+}
+
+.reading-info {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.dark-theme .reading-info {
+  color: #aaa;
+}
+
+/* ===== BOOK CONTENTS STYLES ===== */
+.book-contents-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.contents-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header-nav {
+  margin-bottom: 20px;
+}
+
+.book-title {
+  margin: 0;
+  color: var(--main-color);
+  font-size: 2.2rem;
+}
+
+.book-intro {
+  background: white;
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 30px;
+  line-height: 1.7;
+}
+
+.chapters-list {
+  background: white;
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 30px;
+}
+
+.chapters-title {
+  margin: 0 0 20px 0;
+  color: var(--main-color);
+  font-size: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 10px;
+}
+
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.chapter-item {
+  border: 1px solid #e0e6ed;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: var(--transition-normal);
+}
+
+.chapter-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.chapter-link {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.chapter-link:hover {
+  background: var(--light-gray);
+}
+
+.chapter-number {
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.chapter-title {
+  font-size: 1rem;
+  color: var(--main-color);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.quick-actions {
+  text-align: center;
+}
+
+/* ===== CHAPTER READING STYLES ===== */
+.chapter-navigation {
+  background: inherit;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 60px;
+  z-index: 99;
+}
+
+.dark-theme .chapter-navigation {
+  border-bottom-color: #444;
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.chapter-progress {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.dark-theme .chapter-progress {
+  color: #aaa;
+}
+
+.chapter-metadata {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.chapter-main-title {
+  margin: 0 0 10px 0;
+  color: var(--main-color);
+  font-size: 1.6rem;
+}
+
+.dark-theme .chapter-main-title {
+  color: #e0e0e0;
+}
+
+.chapter-info {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.dark-theme .chapter-info {
+  color: #aaa;
+}
+
+.chapter-content {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
+  line-height: 1.8;
+  min-height: 60vh;
+}
+
+.chapter-bottom-nav {
+  max-width: 800px;
+  margin: 40px auto 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  gap: 20px;
+}
+
+.dark-theme .chapter-bottom-nav {
+  border-top-color: #444;
+}
+
+.bottom-nav-left,
+.bottom-nav-right {
+  flex: 1;
+}
+
+.bottom-nav-right {
+  text-align: right;
+}
+
+.bottom-nav-center {
+  text-align: center;
+}
+
+.reading-tips {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.reading-tips small {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.dark-theme .reading-tips small {
+  color: #666;
+}
+
+/* ===== ENHANCED BUTTON STYLES ===== */
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+}
+
+.btn-outline:hover {
+  background: var(--accent-color);
+  color: white;
+}
+
+.btn-lg {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+}
+
+/* ===== RESPONSIVE DESIGN FOR BOOK COMPONENTS ===== */
+@media (max-width: 768px) {
+  .book-contents-container {
+    padding: 15px;
+  }
+  
+  .chapters-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .reading-controls {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 10px;
+  }
+  
+  .controls-left,
+  .controls-right {
+    order: 2;
+  }
+  
+  .controls-center {
+    order: 1;
+  }
+  
+  .chapter-navigation {
+    flex-direction: column;
+    gap: 10px;
+    top: 140px;
+  }
+  
+  .nav-left,
+  .nav-right {
+    order: 2;
+  }
+  
+  .nav-center {
+    order: 1;
+  }
+  
+  .chapter-bottom-nav {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .bottom-nav-left,
+  .bottom-nav-right {
+    text-align: center;
+  }
+  
+  .chapter-info {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+@media (max-width: 768px) {
+  .books-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .reading-controls {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 10px;
+  }
+  
+  .controls-left,
+  .controls-right {
+    order: 2;
+  }
+  
+  .controls-center {
+    order: 1;
+  }
+  
+  .metadata-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .book-content {
+    padding: 0 15px;
+  }
+  
+  .book-content .paragraph {
+    text-indent: 1.5em;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.001ms !important;

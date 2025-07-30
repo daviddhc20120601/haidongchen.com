@@ -1,5 +1,16 @@
 [
   {
+    "id": "2025-04-26-llm-in-realtime-with-flink-and-kafka",
+    "title": "LLM in Realtime with Flink and Kafka",
+    "collection": "talks",
+    "type": "Talk",
+    "venue": "Tech Conference 2025",
+    "date": "2025-04-26",
+    "location": "Singapore",
+    "excerpt": "# LLM in Realtime with Flink and Kafka",
+    "filename": "2025-04-26-llm-in-realtime-with-flink-and-kafka.md"
+  },
+  {
     "id": "2025-04-26-quant-mcp-server-finance",
     "title": "Quant MCP Server: Augmenting LLMs with Real-Time Financial Data",
     "collection": "talks",

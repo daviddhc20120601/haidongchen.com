@@ -69,6 +69,30 @@ npm run dev
 
 Access the site at [http://localhost:5173](http://localhost:5173)
 
+### Git Hooks Setup
+
+The project includes a pre-commit hook that automatically regenerates JSON data files from markdown content. To set it up:
+
+```bash
+# Set up git hooks (recommended for all developers)
+npm run setup-hooks
+```
+
+The pre-commit hook will:
+- Automatically run `generateJsonFromMarkdown.js` before each commit
+- Add updated JSON files to your commit
+- Ensure data consistency between markdown and JSON files
+
+To manually regenerate JSON files:
+```bash
+npm run generate-json
+```
+
+To bypass the hook (not recommended):
+```bash
+git commit --no-verify
+```
+
 ### Using Docker
 
 ```bash

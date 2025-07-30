@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Pre-commit hook to regenerate JSON data files
+# This ensures that data/*.json files are always up-to-date with markdown content
+
+echo "🔄 Pre-commit hook: Regenerating JSON data files..."
+
+# Navigate to the project root
+cd "$(git rev-parse --show-toplevel)"
+
+# Check if Node.js is available
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js is not installed. Skipping JSON generation."
+    exit 0
+fi
+
+# Check if the generation script exists
+if [ ! -f "scripts/generateJsonFromMarkdown.js" ]; then
+    echo "❌ Generation script not found. Skipping JSON generation."
+    exit 0
+fi
+
+# Run the JSON generation script
+echo "📝 Running JSON generation script..."
+if node scripts/generateJsonFromMarkdown.js; then
+    echo "✅ JSON files generated successfully"
+    
+    # Check if there are any changes to data files
+    if git diff --quiet --cached public/data/; then
+        echo "ℹ️  No changes to data files detected"
+    else
+        echo "📄 Adding updated data files to commit..."
+        # Add any modified data files to the commit
+        git add public/data/*.json 2>/dev/null || true
+        echo "✅ Updated data files added to commit"
+    fi
+else
+    echo "❌ Failed to generate JSON files"
+    echo "💡 You can commit without regenerating data files, but they may be out of sync"
+    echo "💡 Run 'npm run generate-json' manually to fix this"
+    
+    # Ask user if they want to proceed anyway
+    read -p "⚠️  Continue with commit anyway? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "🚫 Commit cancelled"
+        exit 1
+    else
+        echo "⚠️  Proceeding with commit (data files may be out of sync)"
+    fi
+fi
+
+echo "🎉 Pre-commit hook completed"
+exit 0

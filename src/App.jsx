@@ -7,6 +7,10 @@ import Publications from "./pages/Publications.jsx";
 import Publication from "./pages/Publication.jsx";
 import Talks from "./pages/Talks.jsx";
 import Talk from "./pages/Talk.jsx";
+import Books from "./pages/Books.jsx";
+import Book from "./pages/Book.jsx";
+import BookContents from "./pages/BookContents.jsx";
+import BookChapter from "./pages/BookChapter.jsx";
 // Update the import path to use .jsx extension
 import { MarkdownRenderer } from "./utils/MarkdownService.jsx";
 import React from "react";
@@ -28,6 +32,10 @@ function App() {
               <Route path="/publication/:id" element={<Publication />} />
               <Route path="/talks" element={<Talks />} />
               <Route path="/talk/:id" element={<Talk />} />
+              <Route path="/books" element={<Books />} />
+              <Route path="/book/:bookId/contents" element={<BookContents />} />
+              <Route path="/book/:bookId/chapter/:chapterId" element={<BookChapter />} />
+              <Route path="/book/:id" element={<Book />} />
               <Route path="*" element={<div>Page not found</div>} />
             </Routes>
           </main>

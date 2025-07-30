@@ -8,6 +8,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "node scripts/generateJsonFromMarkdown.js && vite build",
     "generate-json": "node scripts/generateJsonFromMarkdown.js",
+    "setup-hooks": "bash scripts/setup-hooks.sh",
     "lint": "eslint vite_refactor/academic-site --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "node scripts/generateJsonFromMarkdown.js && vite preview --host 0.0.0.0",
     "predeploy": "node scripts/generateJsonFromMarkdown.js && npm run build",

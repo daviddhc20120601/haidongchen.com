@@ -1,0 +1,26 @@
+[
+  {
+    "id": "sample-novel-2",
+    "title": "都市修仙传",
+    "author": "李四",
+    "genre": "玄幻小说",
+    "date": "2024-02-01",
+    "status": "已完结",
+    "chapters": "25",
+    "description": "现代都市中的修仙故事，一个普通程序员的逆袭之路。",
+    "excerpt": "# 都市修仙传",
+    "filename": "sample-novel-2.md"
+  },
+  {
+    "id": "sample-novel-1",
+    "title": "时光倒流的秘密",
+    "author": "张三",
+    "genre": "科幻小说",
+    "date": "2024-01-15",
+    "status": "连载中",
+    "chapters": "12",
+    "description": "一个关于时间旅行的神秘故事，主人公意外发现了可以让时光倒流的古老秘密。",
+    "excerpt": "# 时光倒流的秘密",
+    "filename": "sample-novel-1.md"
+  }
+]
