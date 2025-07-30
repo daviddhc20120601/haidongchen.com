@@ -1,6 +1,7 @@
 // scripts/generateJsonFromMarkdown.js
 import fs from 'fs/promises';
 import path from 'path';
+import yaml from 'js-yaml';
 
 // Function to extract frontmatter from markdown content
 function extractFrontmatter(markdown) {
@@ -9,56 +10,63 @@ function extractFrontmatter(markdown) {
 
   if (!match) return {};
 
-  const frontmatter = match[1];
-  const metadata = {};
+  try {
+    // Parse YAML frontmatter
+    const metadata = yaml.load(match[1]) || {};
 
-  // Extract each field from the frontmatter
-  const lines = frontmatter.split('\n');
-  for (const line of lines) {
-    const colonIndex = line.indexOf(':');
-    if (colonIndex === -1) continue;
-
-    const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
-
-    // Remove quotes if present
-    if ((value.startsWith("'") && value.endsWith("'")) ||
-        (value.startsWith('"') && value.endsWith('"'))) {
-      value = value.slice(1, -1);
+    // Extract excerpt from the content if not in frontmatter
+    if (!metadata.excerpt) {
+      const contentWithoutFrontmatter = markdown.replace(frontmatterRegex, '').trim();
+      const firstParagraph = contentWithoutFrontmatter.split('\n\n')[0];
+      metadata.excerpt = firstParagraph.slice(0, 150) + (firstParagraph.length > 150 ? '...' : '');
     }
 
-    metadata[key] = value;
+    return metadata;
+  } catch (error) {
+    console.error('Error parsing YAML frontmatter:', error);
+    return {};
   }
-
-  // Extract excerpt from the content if not in frontmatter
-  if (!metadata.excerpt) {
-    const contentWithoutFrontmatter = markdown.replace(frontmatterRegex, '').trim();
-    const firstParagraph = contentWithoutFrontmatter.split('\n\n')[0];
-    metadata.excerpt = firstParagraph.slice(0, 150) + (firstParagraph.length > 150 ? '...' : '');
-  }
-
-  return metadata;
 }
 
 async function processDirectory(dirPath, outputFile) {
   try {
-    const files = await fs.readdir(dirPath);
-    const markdownFiles = files.filter(file => file.endsWith('.md'));
+    const files = await fs.readdir(dirPath, { withFileTypes: true });
     const result = [];
 
-    for (const file of markdownFiles) {
-      const filePath = path.join(dirPath, file);
-      const content = await fs.readFile(filePath, 'utf8');
-      const metadata = extractFrontmatter(content);
+    for (const file of files) {
+      if (file.isFile() && file.name.endsWith('.md')) {
+        // Process individual markdown files
+        const filePath = path.join(dirPath, file.name);
+        const content = await fs.readFile(filePath, 'utf8');
+        const metadata = extractFrontmatter(content);
 
-      // Generate ID from filename (remove extension)
-      const id = file.replace(/\.md$/, '');
+        // Generate ID from filename (remove extension)
+        const id = file.name.replace(/\.md$/, '');
 
-      result.push({
-        id,
-        ...metadata,
-        filename: file
-      });
+        result.push({
+          id,
+          ...metadata,
+          filename: file.name
+        });
+      } else if (file.isDirectory()) {
+        // Check if directory contains an index.md file (multi-file book)
+        const indexPath = path.join(dirPath, file.name, 'index.md');
+        try {
+          await fs.access(indexPath);
+          // Directory has an index.md, process it as a book
+          const content = await fs.readFile(indexPath, 'utf8');
+          const metadata = extractFrontmatter(content);
+
+          result.push({
+            id: file.name,
+            ...metadata,
+            filename: file.name // Use directory name as filename for multi-file books
+          });
+        } catch (err) {
+          // No index.md in this directory, skip it
+          continue;
+        }
+      }
     }
 
     // Sort by date (newest first)
