@@ -80,27 +80,34 @@ export default function MarkdownPage({ filePath }) {
     // Custom component for headers on the About page
     h1: ({ node, ...props }) => {
       if (isAboutPage) {
-        return <h1 className="rainbow-text" {...props} />;
+        return <h1 className="resume-name" {...props} />;
       }
       return <h1 {...props} />;
     },
     h2: ({ node, ...props }) => {
       if (isAboutPage) {
-        if (props.children[0].includes('Gen-AI')) {
-          return <h2 id="gen-ai" className="gradient-heading" {...props} />;
-        } else if (props.children[0].includes('Data')) {
-          return <h2 id="data" className="gradient-heading" {...props} />;
-        } else if (props.children[0].includes('Infrastructure')) {
-          return <h2 id="infra" className="gradient-heading" {...props} />;
-        } else if (props.children[0].includes('Security')) {
-          return <h2 id="security" className="gradient-heading" {...props} />;
-        } else if (props.children[0].includes('Wallet')) {
-          return <h2 id="wallet" className="gradient-heading" {...props} />;
-        } else if (props.children[0].includes('Speaker')) {
-          return <h2 id="speaker" className="gradient-heading" {...props} />;
+        // Check if this is the job title (right after h1)
+        if (props.children && props.children[0] && 
+            (props.children[0].includes('Director') || 
+             props.children[0].includes('Senior') ||
+             props.children[0].includes('Lead'))) {
+          return <h2 className="resume-title" {...props} />;
         }
+        return <h2 className="resume-section-header" {...props} />;
       }
       return <h2 {...props} />;
+    },
+    h3: ({ node, ...props }) => {
+      if (isAboutPage) {
+        return <h3 className="resume-subsection" {...props} />;
+      }
+      return <h3 {...props} />;
+    },
+    h4: ({ node, ...props }) => {
+      if (isAboutPage) {
+        return <h4 className="resume-job-title" {...props} />;
+      }
+      return <h4 {...props} />;
     },
     // Process code blocks for mermaid and also transform markdown sections into styled sections
     code({ node, inline, className, children, ...props }) {
@@ -126,158 +133,65 @@ export default function MarkdownPage({ filePath }) {
       if (isAboutPage && 
           props.children && 
           typeof props.children === 'string' && 
-          (props.children.includes('Flink') || 
-           props.children.includes('Kubernetes') || 
-           props.children.includes('SOC') || 
-           props.children.includes('Digital Wallet'))) {
+          (props.children.includes('Technologies:') || 
+           props.children.includes('Recent Engagements:') ||
+           props.children.includes('Focus Areas:'))) {
         
-        const techs = props.children.split(',').map(tech => tech.trim());
-        return (
-          <div className="tech-stack">
-            {techs.map((tech, idx) => (
-              <span key={idx} className="tech-pill">{tech}</span>
-            ))}
-          </div>
-        );
+        const content = props.children;
+        if (content.includes('Technologies:')) {
+          const techs = content.replace('Technologies:', '').split(',').map(tech => tech.trim());
+          return (
+            <div className="tech-stack-section">
+              <strong>Technologies:</strong>
+              <div className="tech-stack">
+                {techs.map((tech, idx) => (
+                  <span key={idx} className="tech-pill">{tech}</span>
+                ))}
+              </div>
+            </div>
+          );
+        } else if (content.includes('Recent Engagements:') || content.includes('Focus Areas:')) {
+          return <p className="resume-highlight" {...props} />;
+        }
       }
+      
+      // Special styling for contact info line
+      if (isAboutPage && 
+          props.children && 
+          typeof props.children === 'string' && 
+          (props.children.includes('Years Experience') || 
+           props.children.includes('Singapore'))) {
+        return <p className="resume-contact-info" {...props} />;
+      }
+      
       return <p {...props} />;
+    },
+    
+    // Style horizontal rules as section separators
+    hr: ({ node, ...props }) => {
+      if (isAboutPage) {
+        return <hr className="resume-section-divider" {...props} />;
+      }
+      return <hr {...props} />;
     }
   };
 
   // Enhance the about page content with styled sections after rendering
   useEffect(() => {
     if (isAboutPage && contentRef.current) {
-      // Add class to main container
-      contentRef.current.classList.add('about-container', 'animate-fade-in');
+      // Add class to main container for resume styling
+      contentRef.current.classList.add('resume-container', 'animate-fade-in');
       
-      // Process sections and add appropriate styling
-      const sections = contentRef.current.querySelectorAll('h2[id]');
-      sections.forEach((section, index) => {
-        const sectionId = section.id;
-        const nextSection = sections[index + 1];
-        
-        // Get all elements between this h2 and the next one (or the end)
-        let currentElement = section.nextElementSibling;
-        const sectionElements = [];
-        
-        while (currentElement && 
-               (!nextSection || !currentElement.isSameNode(nextSection))) {
-          sectionElements.push(currentElement);
-          currentElement = currentElement.nextElementSibling;
-        }
-        
-        // Create a section wrapper
-        const wrapper = document.createElement('div');
-        wrapper.className = `about-section ${sectionId}-section`;
-        
-        // For specific sections, create skill cards with icons
-        if (['gen-ai', 'data', 'infra', 'security', 'wallet'].includes(sectionId)) {
-          const card = document.createElement('div');
-          card.className = `skill-card gradient-card ${sectionId}`;
-          
-          // Add animation classes based on even/odd index
-          if (index % 2 === 0) {
-            card.classList.add('animate-slide-left');
-          } else {
-            card.classList.add('animate-slide-right');
-          }
-          
-          card.style.setProperty('--animation-order', index + 1);
-          
-          // Add a colorful icon based on section type
-          const iconWrapper = document.createElement('div');
-          iconWrapper.style.cssText = `
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-align: center;
-            background: white;
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-          `;
-          
-          // Select icon based on section
-          let icon = '🤖';
-          if (sectionId === 'gen-ai') {
-            icon = '🤖';
-            iconWrapper.style.color = 'var(--primary-purple)';
-          } else if (sectionId === 'data') {
-            icon = '📊';
-            iconWrapper.style.color = 'var(--primary-teal)';
-          } else if (sectionId === 'infra') {
-            icon = '🏗️';
-            iconWrapper.style.color = 'var(--primary-coral)';
-          } else if (sectionId === 'security') {
-            icon = '🔒';
-            iconWrapper.style.color = 'var(--primary-gold)';
-          } else if (sectionId === 'wallet') {
-            icon = '💳';
-            iconWrapper.style.color = 'var(--primary-magenta)';
-          }
-          
-          iconWrapper.textContent = icon;
-          card.appendChild(iconWrapper);
-          
-          // Add a title to the card
-          const cardTitle = document.createElement('h3');
-          cardTitle.textContent = section.textContent;
-          cardTitle.className = 'gradient-heading';
-          card.appendChild(cardTitle);
-          
-          // Move all section elements into the card
-          sectionElements.forEach(el => card.appendChild(el.cloneNode(true)));
-          
-          // Replace the original elements with the card
-          wrapper.appendChild(card);
-          section.insertAdjacentElement('afterend', wrapper);
-          
-          // Remove the original elements
-          sectionElements.forEach(el => el.remove());
-          section.remove();
-        } else if (sectionId === 'speaker') {
-          // Special styling for speaker section
-          const speakerSection = document.createElement('div');
-          speakerSection.className = 'speaker-section colored-section animate-fade-up';
-          
-          // Keep the h2 but move it inside
-          speakerSection.appendChild(section.cloneNode(true));
-          
-          // Add decorative elements
-          const decorElement = document.createElement('div');
-          decorElement.style.cssText = `
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 3rem;
-            opacity: 0.2;
-            display: flex;
-            gap: 15px;
-          `;
-          decorElement.innerHTML = '🎤 🎙️ 📢';
-          speakerSection.appendChild(decorElement);
-          
-          // Move all section elements
-          sectionElements.forEach(el => speakerSection.appendChild(el.cloneNode(true)));
-          
-          // Replace the original elements with the styled section
-          wrapper.appendChild(speakerSection);
-          section.insertAdjacentElement('afterend', wrapper);
-          
-          // Remove the original elements
-          sectionElements.forEach(el => el.remove());
-          section.remove();
-        }
-      }); 
+      // Add special styling to strong elements in lists
+      const listStrong = contentRef.current.querySelectorAll('li strong');
+      listStrong.forEach((strong) => {
+        strong.classList.add('resume-highlight-text');
+      });
       
-      // Add color accents to strong elements
-      const strongElements = contentRef.current.querySelectorAll('p strong');
-      strongElements.forEach((strong) => {
-        strong.classList.add('rainbow-text');
+      // Add special styling to job descriptions
+      const jobDescriptions = contentRef.current.querySelectorAll('h4 + p');
+      jobDescriptions.forEach((desc) => {
+        desc.classList.add('job-description');
       });
     }
   }, [content, isAboutPage]);
@@ -294,7 +208,7 @@ export default function MarkdownPage({ filePath }) {
   // Special container for the about page (homepage)
   if (isAboutPage) {
     return (
-      <div className="home-container" ref={contentRef}>
+      <div className="resume-container" ref={contentRef}>
         <ReactMarkdown
           rehypePlugins={[rehypeRaw, rehypeSanitize]}
           remarkPlugins={[remarkGfm]}
