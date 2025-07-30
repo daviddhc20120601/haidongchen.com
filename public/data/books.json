@@ -1,12 +1,87 @@
 [
   {
+    "id": "qingchun-xiaoyuan",
+    "title": "青春校园恋爱物语",
+    "author": "王五",
+    "genre": "青春校园",
+    "date": "2024-03-01",
+    "status": "连载中",
+    "totalChapters": 8,
+    "description": "一个关于青春、友情和初恋的温馨故事。",
+    "isMultiFile": true,
+    "chapters": [
+      {
+        "id": "chapter-01",
+        "title": "新学期的开始",
+        "file": "chapter-01.md"
+      },
+      {
+        "id": "chapter-02",
+        "title": "意外的相遇",
+        "file": "chapter-02.md"
+      },
+      {
+        "id": "chapter-03",
+        "title": "图书馆的约定",
+        "file": "chapter-03.md"
+      },
+      {
+        "id": "chapter-04",
+        "title": "萌动的心意",
+        "file": "chapter-04.md"
+      },
+      {
+        "id": "chapter-05",
+        "title": "文化节的邀请",
+        "file": "chapter-05.md"
+      },
+      {
+        "id": "chapter-06",
+        "title": "雨中的告白",
+        "file": "chapter-06.md"
+      },
+      {
+        "id": "chapter-07",
+        "title": "误会与和解",
+        "file": "chapter-07.md"
+      },
+      {
+        "id": "chapter-08",
+        "title": "毕业的约定",
+        "file": "chapter-08.md"
+      }
+    ],
+    "excerpt": "# 青春校园恋爱物语",
+    "filename": "qingchun-xiaoyuan"
+  },
+  {
+    "id": "熵天证道 轮回重修录",
+    "title": "熵天证道：轮回重修录",
+    "author": "王五",
+    "genre": "修仙 穿越 玄幻",
+    "date": "2024-03-01",
+    "status": "连载中",
+    "totalChapters": 100,
+    "description": "一个关于青春、友情和初恋的温馨故事。",
+    "isMultiFile": true,
+    "chapters": [
+      {
+        "id": "chapter-01",
+        "title": "轮回九转：我靠化学修仙",
+        "file": "chapter-01.md"
+      }
+    ],
+    "excerpt": "# 熵天证道：轮回重修录",
+    "filename": "熵天证道 轮回重修录"
+  },
+  {
     "id": "sample-novel-1",
     "title": "时光倒流的秘密",
     "author": "张三",
     "genre": "科幻小说",
     "date": "2024-01-15",
     "status": "连载中",
-    "chapters": "12",
+    "chapters": 12,
     "description": "一个关于时间旅行的神秘故事，主人公意外发现了可以让时光倒流的古老秘密。",
     "excerpt": "# 时光倒流的秘密",
     "filename": "sample-novel-1.md"
