@@ -5,7 +5,8 @@ on:
     branches:
       - master
     paths:
-      - 'public/**/*.md'  # Only trigger when .md files in public directory or subdirectories change
+      - 'public/**/*.md'  # Trigger when .md files in public directory or subdirectories change
+      - 'public/data/*.json'  # Also trigger when JSON data files change
   # Allow manual triggering
   workflow_dispatch:
 
