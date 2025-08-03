@@ -11,6 +11,7 @@ import Books from "./pages/Books.jsx";
 import Book from "./pages/Book.jsx";
 import BookContents from "./pages/BookContents.jsx";
 import BookChapter from "./pages/BookChapter.jsx";
+import LLMAgents from "./pages/LLMAgents.jsx";
 // Update the import path to use .jsx extension
 import { MarkdownRenderer } from "./utils/MarkdownService.jsx";
 import React from "react";
@@ -36,6 +37,7 @@ function App() {
               <Route path="/book/:bookId/contents" element={<BookContents />} />
               <Route path="/book/:bookId/chapter/:chapterId" element={<BookChapter />} />
               <Route path="/book/:id" element={<Book />} />
+              <Route path="/llm-agents" element={<LLMAgents />} />
               <Route path="*" element={<div>Page not found</div>} />
             </Routes>
           </main>

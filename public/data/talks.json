@@ -1,5 +1,17 @@
 [
   {
+    "id": "2025-08-03-llm-agents-chat-implementation",
+    "title": "Building a ChatGPT-like Interface with OpenRouter and DeepSeek APIs",
+    "collection": "talks",
+    "type": "Blog Post",
+    "permalink": "/talks/2025-08-03-llm-agents-chat-implementation",
+    "venue": "Technical Blog",
+    "date": "2025-08-03T00:00:00.000Z",
+    "location": "Remote",
+    "excerpt": "# Building a ChatGPT-like Interface with OpenRouter and DeepSeek APIs",
+    "filename": "2025-08-03-llm-agents-chat-implementation.md"
+  },
+  {
     "id": "2025-04-26-llm-in-realtime-with-flink-and-kafka",
     "title": "LLM in Realtime with Flink and Kafka",
     "collection": "talks",
