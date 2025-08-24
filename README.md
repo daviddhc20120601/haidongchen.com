@@ -1,142 +1,98 @@
-Here's a comprehensive README.md file for your academic site project:
-test
-```markdown
 # Academic Portfolio Site
 
-A personal academic portfolio website built with React, Vite, and deployed on GitHub Pages.
+A personal academic portfolio built with React and Vite. Content is written as Markdown under `public/content/` and converted to JSON for the site.
+
+## Quick links
+- Content folder: `public/content/`
+- Generated data: `public/data/`
+- Dev server: `npm run dev`
+- Build: `npm run build`
+- Deploy (GitHub Pages): `npm run deploy`
 
 ## Prerequisites
-
 - Git
-- Node.js (v20.x recommended)
+- Node.js v20 (recommended)
 - npm
 
-## Setup Instructions
-
-### Installing NVM
-
-Node Version Manager (NVM) allows you to easily install and switch between Node.js versions.
-
-#### Mac/Linux
-
-```bash
-# Install NVM
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-
-# Add NVM to your shell profile (.zshrc, .bash_profile, etc.)
-echo 'export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.zshrc
-
-
-# Apply changes 
-source ~/.zshrc
-```
-
-#### Verify Installation
-
-```bash
-nvm --version
-```
-
-### Using Node.js v20
-
-```bash
-# Install Node.js v20
-nvm install 20
-
-# Use Node.js v20
-nvm use 20
-
-# Verify version
-node -v
-# Should output v20.x.x
-```
-
-### Installing Dependencies
+## Setup
+1. Install dependencies:
 
 ```bash
 npm install
 ```
 
-## Development
+2. (Optional) Install git hooks to auto-generate JSON before commits:
 
-### Local Development
+```bash
+npm run setup-hooks
+```
+
+## Development
+Start the Vite dev server (hosts on 0.0.0.0 by default):
 
 ```bash
 npm run dev
 ```
 
-Access the site at [http://localhost:5173](http://localhost:5173)
+The site will be available at http://localhost:5173 by default.
 
-### Git Hooks Setup
+### Regenerate JSON from Markdown
+Content in `public/content/` is converted to `public/data/*.json` by the generator script. Run manually when you add or edit markdown:
 
-The project includes a pre-commit hook that automatically regenerates JSON data files from markdown content. To set it up:
-
-```bash
-# Set up git hooks (recommended for all developers)
-npm run setup-hooks
-```
-
-The pre-commit hook will:
-- Automatically run `generateJsonFromMarkdown.js` before each commit
-- Add updated JSON files to your commit
-- Ensure data consistency between markdown and JSON files
-
-To manually regenerate JSON files:
 ```bash
 npm run generate-json
 ```
 
-To bypass the hook (not recommended):
-```bash
-git commit --no-verify
+This script is also run automatically as part of the build and preview scripts.
+
+## Adding a new talk (example)
+1. Create a Markdown file under `public/content/talks/` with frontmatter. Example frontmatter:
+
+```yaml
+---
+title: "My New Talk"
+collection: talks
+type: "Talk"
+venue: "Conference Name"
+date: 2025-08-24
+location: "Remote"
+permalink: /talks/2025-08-24-my-new-talk
+---
 ```
 
-### Using Docker
+2. Add the talk body (Markdown). You can include Mermaid diagrams and images.
+3. Run the JSON generator:
 
 ```bash
-docker compose up dev
+npm run generate-json
+```
+
+4. Build and preview:
+
+```bash
+npm run build
+npm run preview
 ```
 
 ## Deployment
-
-### Deploying to GitHub Pages
+The project uses `gh-pages` to publish the `dist/` folder. To deploy:
 
 ```bash
-# Make sure you're on Node.js v20
-nvm use 20
-
-# Build and deploy
+npm run predeploy
 npm run deploy
 ```
 
-The deployment script will:
-1. Build the project (`npm run build`)
-2. Push the built files to the `gh-pages` branch
+If you prefer another host (Netlify, Vercel, custom server), upload the `dist/` output directory produced by `npm run build`.
 
-### Deployment Troubleshooting
+## Notes & troubleshooting
+- Mermaid and mermaid-related assets are included in the build; large diagrams can increase chunk size warnings during build.
+- If a Mermaid diagram fails to render, try simplifying the diagram (avoid unsupported subgraph/classDef usage) and regenerate.
+- The pre-commit hook runs the JSON generator and auto-stages generated files; use `git commit --no-verify` to bypass (not recommended).
 
-If you encounter Node.js version issues:
+## Contributing
+- Edit Markdown files under `public/content/` for content changes.
+- Edit React components under `src/` for UI or behavior changes.
+- Run `npm run generate-json` before committing if you are not using the git hook.
 
-```bash
-# Check if you're using the correct Node version
-node -v
-
-# If not v20.x.x, switch to it
-nvm use 20
-```
-
-If you prefer using Docker for deployment:
-
-```bash
-docker compose run --rm dev sh -c "npm install && npm run build && npm run deploy"
-```
-
-## Project Structure
-
-- `/public/content/` - Markdown content files
-- `/src/components/` - React components
-- `/src/pages/` - Page components
-- `/src/utils/` - Utility functions
-```
+## Contact
+Repository owner: daviddhc20120601 (site: https://haidongchen.com)

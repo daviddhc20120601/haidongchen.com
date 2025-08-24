@@ -1,5 +1,17 @@
 [
   {
+    "id": "2025-08-24-vision-language-agents-vla",
+    "title": "Vision–Language Agents (VLA): Bridging LLMs and VLMs",
+    "collection": "talks",
+    "type": "Talk",
+    "venue": "Technical Talk",
+    "date": "2025-08-24T00:00:00.000Z",
+    "location": "Remote",
+    "permalink": "/talks/2025-08-24-vision-language-agents-vla",
+    "excerpt": "# Vision–Language Agents (VLA): Bridging LLMs and VLMs",
+    "filename": "2025-08-24-vision-language-agents-vla.md"
+  },
+  {
     "id": "2025-08-03-llm-agents-chat-implementation",
     "title": "Building a ChatGPT-like Interface with OpenRouter and DeepSeek APIs",
     "collection": "talks",
