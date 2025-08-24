@@ -19,7 +19,7 @@ This talk explains the relationship between LLMs (Large Language Models), VLMs (
 - VLAs combine VLM perception with agentic reasoning and tool use, enabling goal-directed behavior over multimodal inputs.
 
 
-![AI concept illustration](https://source.unsplash.com/1200x600/?artificial-intelligence,ai)
+![AI concept illustration](https://miro.medium.com/v2/resize:fit:720/format:webp/1*59iDh08Pwlsx3ED2rHzAXQ.jpeg)
 *Figure: Conceptual illustration of artificial intelligence and multimodal perception.*
 
 ## Core concepts
