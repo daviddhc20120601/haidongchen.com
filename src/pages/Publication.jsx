@@ -5,7 +5,6 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
-import mermaid from 'mermaid';
 
 export default function Publication() {
   const { id } = useParams();
@@ -64,23 +63,49 @@ export default function Publication() {
     fetchPublication();
   }, [id]);
 
-  // Initialize Mermaid when content changes
+  // Dynamically import mermaid and render diagrams when content changes
   useEffect(() => {
     if (publication?.content && contentRef.current) {
-      // Initialize Mermaid with configuration
-      mermaid.initialize({
-        startOnLoad: true,
-        theme: 'default',
-        securityLevel: 'loose'
-      });
+      const timer = setTimeout(async () => {
+        try {
+          const nodes = contentRef.current.querySelectorAll('.mermaid');
+          if (!nodes || nodes.length === 0) return;
 
-      try {
-        // Find all mermaid code blocks and render them
-        const mermaidDivs = contentRef.current.querySelectorAll('.mermaid');
-        mermaid.init(undefined, mermaidDivs);
-      } catch (error) {
-        console.error('Mermaid rendering error:', error);
-      }
+          const mod = await import('mermaid');
+          const m = mod && (mod.default || mod);
+          if (m && typeof m.initialize === 'function') {
+            m.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
+          }
+
+          if (m && typeof m.run === 'function') {
+            try {
+              m.run({ nodes: Array.from(nodes) });
+              return;
+            } catch (err) {
+              console.warn('mermaid.run failed in Publication.jsx', err);
+            }
+          }
+
+          nodes.forEach((el) => {
+            const code = el.textContent || '';
+            const id = 'mermaid-' + Math.random().toString(36).slice(2, 9);
+            if (m && m.mermaidAPI && typeof m.mermaidAPI.render === 'function') {
+              m.mermaidAPI.render(id, code, (svg) => { el.innerHTML = svg; });
+            } else if (m && typeof m.render === 'function') {
+              try {
+                const svg = m.render(id, code);
+                el.innerHTML = typeof svg === 'string' ? svg : (svg && svg.svg ? svg.svg : '');
+              } catch (err) {
+                console.warn('mermaid.render failed in Publication.jsx', err);
+              }
+            }
+          });
+        } catch (err) {
+          console.error('Error rendering mermaid in Publication.jsx', err);
+        }
+      }, 80);
+
+      return () => clearTimeout(timer);
     }
   }, [publication?.content]);
 

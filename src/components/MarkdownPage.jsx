@@ -5,7 +5,6 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
 import { useLocation } from 'react-router-dom';
-import mermaid from 'mermaid';
 
 export default function MarkdownPage({ filePath }) {
   const [content, setContent] = useState('');
@@ -53,25 +52,131 @@ export default function MarkdownPage({ filePath }) {
     fetchMarkdown();
   }, [filePath]);
 
-  useEffect(() => {
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'default',
-      securityLevel: 'loose',
-      fontFamily: 'sans-serif'
-    });
-  }, []);
+  // Mermaid is dynamically imported and initialized when mermaid blocks exist.
 
   useEffect(() => {
+    // After content renders, find all `.mermaid` blocks and render them individually.
     if (content && contentRef.current) {
-      const timer = setTimeout(() => {
+      const timer = setTimeout(async () => {
         try {
-          mermaid.init(undefined, '.mermaid');
+          const nodes = contentRef.current.querySelectorAll('.mermaid');
+          const debugMessages = [];
+
+          if (!nodes || nodes.length === 0) {
+            // No mermaid blocks — write debug box and exit early
+            let dbg = contentRef.current.querySelector('.mermaid-debug');
+            if (!dbg) {
+              dbg = document.createElement('div');
+              dbg.className = 'mermaid-debug';
+              dbg.style.cssText = 'margin-top:1rem;padding:0.6rem;border-left:3px solid #f59e0b;background:#fff7ed;color:#92400e;font-family:monospace;font-size:13px;';
+              contentRef.current.appendChild(dbg);
+            }
+            dbg.innerText = 'No mermaid blocks found.';
+            return;
+          }
+
+          // Dynamically import mermaid on demand (avoids bundling/SSR issues)
+          let mod;
+          try {
+            mod = await import('mermaid');
+          } catch (err) {
+            debugMessages.push(`Failed to import mermaid: ${err.message || err}`);
+          }
+
+          const m = mod && (mod.default || mod);
+          if (!m) {
+            debugMessages.push('Mermaid module not available after import.');
+          }
+
+          // Initialize mermaid if available
+          try {
+            if (m && typeof m.initialize === 'function') {
+              m.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
+            }
+          } catch (err) {
+            debugMessages.push(`mermaid.initialize failed: ${err.message || err}`);
+          }
+
+          nodes.forEach((el, idx) => {
+            // Avoid re-rendering already processed diagrams
+            if (el.dataset && el.dataset.rendered === 'true') {
+              debugMessages.push(`Diagram ${idx + 1}: already rendered`);
+              return;
+            }
+
+            const code = (el.textContent || '').trim();
+            const id = 'mermaid-' + Math.random().toString(36).slice(2, 9);
+
+            try {
+              // Try mermaid.run (some builds expose it)
+              if (m && typeof m.run === 'function') {
+                try {
+                  m.run({ nodes: [el] });
+                  el.dataset.rendered = 'true';
+                  debugMessages.push(`Diagram ${idx + 1}: rendered via mermaid.run`);
+                  return;
+                } catch (err) {
+                  debugMessages.push(`Diagram ${idx + 1}: mermaid.run failed: ${err.message || err}`);
+                }
+              }
+
+              // Try mermaid.mermaidAPI.render
+              if (m && m.mermaidAPI && typeof m.mermaidAPI.render === 'function') {
+                try {
+                  m.mermaidAPI.render(id, code, (svgCode) => {
+                    el.innerHTML = svgCode;
+                    el.dataset.rendered = 'true';
+                    debugMessages.push(`Diagram ${idx + 1}: rendered via mermaid.mermaidAPI.render`);
+                  });
+                  return;
+                } catch (err) {
+                  debugMessages.push(`Diagram ${idx + 1}: mermaid.mermaidAPI.render failed: ${err.message || err}`);
+                }
+              }
+
+              // Try mermaid.render
+              if (m && typeof m.render === 'function') {
+                try {
+                  const svg = m.render(id, code);
+                  // render may return an object in some versions
+                  if (typeof svg === 'string') {
+                    el.innerHTML = svg;
+                  } else if (svg && svg.svg) {
+                    el.innerHTML = svg.svg;
+                  }
+                  el.dataset.rendered = 'true';
+                  debugMessages.push(`Diagram ${idx + 1}: rendered via mermaid.render`);
+                  return;
+                } catch (err) {
+                  debugMessages.push(`Diagram ${idx + 1}: mermaid.render failed: ${err.message || err}`);
+                }
+              }
+
+              // If none succeeded, leave the code visible and note it
+              debugMessages.push(`Diagram ${idx + 1}: no suitable mermaid API found`);
+            } catch (err) {
+              debugMessages.push(`Diagram ${idx + 1}: unexpected error: ${err.message || err}`);
+            }
+          });
+
+          // Write debug messages to a visible box under the article for easy inspection
+          try {
+            let dbg = contentRef.current.querySelector('.mermaid-debug');
+            if (!dbg) {
+              dbg = document.createElement('div');
+              dbg.className = 'mermaid-debug';
+              dbg.style.cssText = 'margin-top:1rem;padding:0.6rem;border-left:3px solid #f59e0b;background:#fff7ed;color:#92400e;font-family:monospace;font-size:13px;';
+              contentRef.current.appendChild(dbg);
+            }
+            dbg.innerText = debugMessages.length ? debugMessages.join('\n') : 'Mermaid render attempted; check diagrams above.';
+          } catch (err) {
+            console.warn('Failed to write mermaid debug box', err);
+          }
         } catch (error) {
           console.error('Mermaid rendering error:', error);
         }
-      }, 100);
-      
+      }, 50);
+
       return () => clearTimeout(timer);
     }
   }, [content]);

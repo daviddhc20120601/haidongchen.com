@@ -5,8 +5,6 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
-// Import mermaid correctly
-import mermaid from 'mermaid';
 
 export default function Talk() {
   const { id } = useParams();
@@ -65,30 +63,50 @@ export default function Talk() {
     fetchTalk();
   }, [id]);
 
-  // Initialize mermaid just once when component mounts
-  useEffect(() => {
-    // Initialize mermaid with simple configuration
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'default',
-      securityLevel: 'loose',
-      fontFamily: 'sans-serif'
-    });
-  }, []);
-
-  // Run mermaid render after content is loaded and rendered
+  // Dynamically import and render mermaid only when mermaid blocks are present
   useEffect(() => {
     if (talk?.content && contentRef.current) {
-      // Use a timeout to ensure DOM has finished rendering
-      const timer = setTimeout(() => {
+      const timer = setTimeout(async () => {
         try {
-          // Simple direct call to mermaid.init
-          mermaid.init(undefined, '.mermaid');
+          const nodes = contentRef.current.querySelectorAll('.mermaid');
+          if (!nodes || nodes.length === 0) return;
+
+          const mod = await import('mermaid');
+          const m = mod && (mod.default || mod);
+          if (m && typeof m.initialize === 'function') {
+            m.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
+          }
+
+          // Prefer m.run when available
+          if (m && typeof m.run === 'function') {
+            try {
+              m.run({ nodes: Array.from(nodes) });
+              return;
+            } catch (err) {
+              console.warn('mermaid.run failed in Talk.jsx', err);
+            }
+          }
+
+          // Fallback to per-element render
+          nodes.forEach((el) => {
+            const code = el.textContent || '';
+            const id = 'mermaid-' + Math.random().toString(36).slice(2, 9);
+            if (m && m.mermaidAPI && typeof m.mermaidAPI.render === 'function') {
+              m.mermaidAPI.render(id, code, (svg) => { el.innerHTML = svg; });
+            } else if (m && typeof m.render === 'function') {
+              try {
+                const svg = m.render(id, code);
+                el.innerHTML = typeof svg === 'string' ? svg : (svg && svg.svg ? svg.svg : '');
+              } catch (err) {
+                console.warn('mermaid.render failed in Talk.jsx', err);
+              }
+            }
+          });
         } catch (err) {
-          console.error('Mermaid rendering error:', err);
+          console.error('Error rendering mermaid in Talk.jsx', err);
         }
-      }, 100);
-      
+      }, 80);
+
       return () => clearTimeout(timer);
     }
   }, [talk?.content]);

@@ -1,5 +1,20 @@
 [
   {
+    "id": "2025-08-30-drone-working-principles-en",
+    "title": "Drone Working Principles",
+    "collection": "talks",
+    "type": "Blog",
+    "date": "2025-08-30T00:00:00.000Z",
+    "permalink": "/talks/2025-08-30-drone-working-principles-en",
+    "excerpt": "A hands-on walkthrough showing how to train a simulated drone to hover using Genesis + PyTorch, with a 15-minute quick start and practical tips for running on a GPU.",
+    "tags": [
+      "drone",
+      "robotics",
+      "controls"
+    ],
+    "filename": "2025-08-30-drone-working-principles-en.md"
+  },
+  {
     "id": "2025-08-24-vision-language-agents-vla",
     "title": "Vision–Language Agents (VLA): Bridging LLMs and VLMs",
     "collection": "talks",
