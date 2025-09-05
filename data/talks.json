@@ -1,5 +1,23 @@
 [
   {
+    "id": "2025-09-03-step-by-step-create-your-own-coin-on-solana",
+    "title": "Step by Step Create Your Own Coin on Solana",
+    "collection": "talks",
+    "type": "Blog",
+    "date": "2025-09-03T00:00:00.000Z",
+    "location": "Singapore",
+    "permalink": "/talks/2025-09-03-step-by-step-create-your-own-coin-on-solana",
+    "excerpt": "A comprehensive guide to creating your own SPL token on the Solana blockchain, covering everything from setup to deployment with practical code examples.",
+    "tags": [
+      "solana",
+      "blockchain",
+      "cryptocurrency",
+      "spl-token",
+      "web3"
+    ],
+    "filename": "2025-09-03-step-by-step-create-your-own-coin-on-solana.md"
+  },
+  {
     "id": "2025-08-30-drone-working-principles-en",
     "title": "Drone Working Principles",
     "collection": "talks",
