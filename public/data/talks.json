@@ -12,6 +12,23 @@
     "filename": "2025-12-15-best-practices-llm-context-memory.md"
   },
   {
+    "id": "2025-09-07-step-by-step-making-cex-match-engine-10mins",
+    "title": "Step by Step Making a CEX Match Engine in 10mins",
+    "collection": "talks",
+    "type": "Blog",
+    "date": "2025-09-07T00:00:00.000Z",
+    "permalink": "/talks/2025-09-07-step-by-step-making-cex-match-engine-10mins",
+    "excerpt": "A comprehensive guide to building a centralized exchange matching engine from scratch in just 10 minutes, covering order book management, trade execution algorithms, and performance optimization.",
+    "tags": [
+      "blockchain",
+      "trading",
+      "match-engine",
+      "cex",
+      "fintech"
+    ],
+    "filename": "2025-09-07-step-by-step-making-cex-match-engine-10mins.md"
+  },
+  {
     "id": "2025-09-03-step-by-step-create-your-own-coin-on-solana",
     "title": "Step by Step Create Your Own Coin on Solana",
     "collection": "talks",
