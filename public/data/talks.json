@@ -1,5 +1,17 @@
 [
   {
+    "id": "2026-01-09-llm-army-agents-vs-single-llm",
+    "title": "Why LLM Army of Agents Outperforms Single LLM: MoE and Multi-Agent Systems",
+    "collection": "talks",
+    "type": "Technical Deep Dive",
+    "permalink": "/talks/2026-01-09-llm-army-agents-vs-single-llm",
+    "venue": "AI Architecture Summit 2026",
+    "date": "2026-01-09T00:00:00.000Z",
+    "location": "Virtual Conference",
+    "excerpt": "Exploring how distributed intelligence through LLM agent armies, Mixture of Experts, and multi-agent systems delivers superior performance compared to monolithic single LLM approaches.",
+    "filename": "2026-01-09-llm-army-agents-vs-single-llm.md"
+  },
+  {
     "id": "2025-12-15-best-practices-llm-context-memory",
     "title": "Best Practices for Managing LLM Context Memory",
     "collection": "talks",
