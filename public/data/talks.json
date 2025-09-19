@@ -36,6 +36,24 @@
     "filename": "2025-12-15-best-practices-llm-context-memory.md"
   },
   {
+    "id": "2025-09-19-kiro-spec-tdd-driven-ai-coding",
+    "title": "Kiro Spec: TDD-Driven AI Coding",
+    "collection": "talks",
+    "type": "Blog",
+    "date": "2025-09-19T00:00:00.000Z",
+    "permalink": "/talks/2025-09-19-kiro-spec-tdd-driven-ai-coding",
+    "excerpt": "Using Kiro-style specifications to drive AI coding with a test-first workflow.",
+    "tags": [
+      "TDD",
+      "AI",
+      "Kiro",
+      "Specifications",
+      "DevEx",
+      "Copilot"
+    ],
+    "filename": "2025-09-19-kiro-spec-tdd-driven-ai-coding.md"
+  },
+  {
     "id": "2025-09-07-step-by-step-making-cex-match-engine-10mins",
     "title": "Step by Step Making a CEX Match Engine in 10mins",
     "collection": "talks",
