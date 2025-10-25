@@ -310,21 +310,21 @@ sequenceDiagram
     participant Env as 并行环境
     participant Policy as 策略网络
     participant ValueNet as 价值网络
-    participant Opt as PPO优化器
+    participant Optimizer as PPO优化器
     
     loop 每个迭代
         Env->>Policy: 当前观测 
         Policy->>Env: 执行动作 
         Env->>Env: 物理仿真
-        Env->>ValueNet: 观测  奖励
-        ValueNet->>Opt: 计算优势函数
-        Policy->>Opt: 计算策略梯度
-        Opt->>Policy: 更新网络参数
-        Opt->>ValueNet: 更新网络参数
+    Env->>ValueNet: 观测  奖励
+    ValueNet->>Optimizer: 计算优势函数
+    Policy->>Optimizer: 计算策略梯度
+    Optimizer->>Policy: 更新网络参数
+    Optimizer->>ValueNet: 更新网络参数
         
         Note over Env: 8192个无人机并行仿真
-        Note over Env,Opt: 每50次迭代保存模型
-        Note over Env,Opt: 生成测试视频
+    Note over Env,Optimizer: 每50次迭代保存模型
+    Note over Env,Optimizer: 生成测试视频
     end
 ```
 
