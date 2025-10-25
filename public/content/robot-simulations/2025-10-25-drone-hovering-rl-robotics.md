@@ -307,9 +307,9 @@ total_reward = reward_target + reward_smooth + reward_yaw + reward_angular + rew
 
 ```mermaid
 sequenceDiagram
-    participant Env as 并行环境\n(8192个无人机)
-    participant Actor as 策略网络\n(Actor)
-    participant Critic as 价值网络\n(Critic)
+    participant Env as 并行环境
+    participant Actor as 策略网络
+    participant Critic as 价值网络
     participant Opt as PPO优化器
     
     loop 每个迭代
@@ -322,6 +322,7 @@ sequenceDiagram
         Opt->>Actor: 更新网络参数
         Opt->>Critic: 更新网络参数
         
+        Note over Env: 8192个无人机并行仿真
         Note over Env,Opt: 每50次迭代保存模型
         Note over Env,Opt: 生成测试视频
     end
