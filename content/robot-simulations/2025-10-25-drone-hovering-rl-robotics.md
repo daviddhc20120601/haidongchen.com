@@ -308,19 +308,19 @@ total_reward = reward_target + reward_smooth + reward_yaw + reward_angular + rew
 ```mermaid
 sequenceDiagram
     participant Env as 并行环境
-    participant Actor as 策略网络
-    participant Critic as 价值网络
+    participant Policy as 策略网络
+    participant ValueNet as 价值网络
     participant Opt as PPO优化器
     
     loop 每个迭代
-        Env->>Actor: 当前观测 (8192×17)
-        Actor->>Env: 执行动作 (8192×4)
-        Env->>Env: 物理仿真（100步）
-        Env->>Critic: 观测 + 奖励
-        Critic->>Opt: 计算优势函数
-        Actor->>Opt: 计算策略梯度
-        Opt->>Actor: 更新网络参数
-        Opt->>Critic: 更新网络参数
+        Env->>Policy: 当前观测 
+        Policy->>Env: 执行动作 
+        Env->>Env: 物理仿真
+        Env->>ValueNet: 观测  奖励
+        ValueNet->>Opt: 计算优势函数
+        Policy->>Opt: 计算策略梯度
+        Opt->>Policy: 更新网络参数
+        Opt->>ValueNet: 更新网络参数
         
         Note over Env: 8192个无人机并行仿真
         Note over Env,Opt: 每50次迭代保存模型
