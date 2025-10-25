@@ -1,5 +1,16 @@
 [
   {
+    "id": "2025-10-25-drone-hovering-rl-robotics",
+    "title": "从零开始的无人机悬停控制：机器人学、强化学习与GPU现实",
+    "collection": "talks",
+    "type": "Technical Blog",
+    "venue": "Genesis Robotics Community",
+    "location": "Online",
+    "date": "2025-10-25T00:00:00.000Z",
+    "excerpt": "# 从零开始的无人机悬停控制：机器人学、强化学习与GPU现实",
+    "filename": "2025-10-25-drone-hovering-rl-robotics.md"
+  },
+  {
     "id": "2025-03-20-ros2-sensor-integration",
     "title": "在 ROS2 仿真中集成传感器",
     "date": "2025-03-20T00:00:00.000Z",
