@@ -736,6 +736,90 @@ nav a.active {
   content-visibility: auto;
 }
 
+/* Code block styling */
+.markdown-content pre {
+  background-color: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 1.5em 0;
+  line-height: 1.45;
+  font-size: 14px;
+}
+
+.markdown-content code {
+  background-color: rgba(175, 184, 193, 0.2);
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  border-radius: 3px;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+}
+
+.markdown-content pre code {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  border: none;
+  display: block;
+}
+
+/* Syntax highlighting for common languages */
+.markdown-content pre code.language-bash::before,
+.markdown-content pre code.language-sh::before {
+  content: '$ ';
+  color: #6a737d;
+  user-select: none;
+}
+
+.markdown-content pre code.language-xml,
+.markdown-content pre code.language-html {
+  color: #22863a;
+}
+
+.markdown-content pre code.language-javascript,
+.markdown-content pre code.language-js {
+  color: #005cc5;
+}
+
+.markdown-content pre code.language-python {
+  color: #6f42c1;
+}
+
+/* Blockquote styling */
+.markdown-content blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 4px solid #dfe2e5;
+  margin: 1.5em 0;
+}
+
+/* Table styling */
+.markdown-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+}
+
+.markdown-content table th,
+.markdown-content table td {
+  padding: 8px 12px;
+  border: 1px solid #dfe2e5;
+}
+
+.markdown-content table th {
+  background-color: #f6f8fa;
+  font-weight: 600;
+}
+
+.markdown-content table tr:nth-child(even) {
+  background-color: #f6f8fa;
+}
+
 .about-section {
   content-visibility: auto;
   contain: content;

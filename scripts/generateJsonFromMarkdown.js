@@ -99,6 +99,9 @@ async function main() {
 
   // Process books
   await processDirectory('public/content/books', 'public/data/books.json');
+
+  // Process robot simulations
+  await processDirectory('public/content/robot-simulations', 'public/data/robot-simulations.json');
 }
 
 main().catch(err => console.error('Error generating JSON files:', err));
