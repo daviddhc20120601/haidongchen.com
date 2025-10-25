@@ -1,0 +1,45 @@
+[
+  {
+    "id": "2025-03-20-ros2-sensor-integration",
+    "title": "在 ROS2 仿真中集成传感器",
+    "date": "2025-03-20T00:00:00.000Z",
+    "type": "教程",
+    "simulator": "Gazebo",
+    "tags": [
+      "ROS2",
+      "传感器",
+      "激光雷达",
+      "相机"
+    ],
+    "excerpt": "一份在 ROS2 + Gazebo 仿真中集成多种传感器（激光雷达、相机、IMU 等）的完整实践指南。",
+    "filename": "2025-03-20-ros2-sensor-integration.md"
+  },
+  {
+    "id": "2025-02-10-gazebo-urdf-modeling",
+    "title": "在 Gazebo 中使用 URDF 构建机器人模型",
+    "date": "2025-02-10T00:00:00.000Z",
+    "type": "指南",
+    "simulator": "Gazebo",
+    "tags": [
+      "URDF",
+      "Gazebo",
+      "机器人建模"
+    ],
+    "excerpt": "学习如何使用 URDF（统一机器人描述格式）创建逼真的机器人模型，并在 Gazebo 中进行仿真。",
+    "filename": "2025-02-10-gazebo-urdf-modeling.md"
+  },
+  {
+    "id": "2025-01-15-ros-navigation-basics",
+    "title": "ROS 导航栈基础",
+    "date": "2025-01-15T00:00:00.000Z",
+    "type": "教程",
+    "simulator": "Gazebo",
+    "tags": [
+      "ROS",
+      "导航",
+      "自主机器人"
+    ],
+    "excerpt": "介绍 ROS 导航栈，并演示如何为移动机器人搭建基础的自主导航。",
+    "filename": "2025-01-15-ros-navigation-basics.md"
+  }
+]
