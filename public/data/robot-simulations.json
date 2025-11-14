@@ -1,5 +1,23 @@
 [
   {
+    "id": "2025-11-14-genesis-physics-engine-intro",
+    "title": "Genesis：下一代通用物理引擎与机器人仿真平台",
+    "collection": "talks",
+    "type": "Technical Blog",
+    "venue": "Genesis Robotics Community",
+    "location": "Online",
+    "date": "2025-11-14T00:00:00.000Z",
+    "tags": [
+      "机器人仿真",
+      "物理引擎",
+      "生成式AI",
+      "强化学习",
+      "具身智能"
+    ],
+    "excerpt": "深入探索Genesis——一个革命性的开源机器人仿真平台，它将物理仿真速度提升到前所未有的43万倍于现实，并通过生成式AI技术重新定义机器人学习范式。",
+    "filename": "2025-11-14-genesis-physics-engine-intro.md"
+  },
+  {
     "id": "2025-10-25-drone-hovering-rl-robotics",
     "title": "从零开始的无人机悬停控制：机器人学、强化学习与GPU现实",
     "collection": "talks",
