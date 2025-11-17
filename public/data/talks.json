@@ -36,6 +36,44 @@
     "filename": "2025-12-15-best-practices-llm-context-memory.md"
   },
   {
+    "id": "2025-11-17-rwa-tech-architecture-design",
+    "title": "RWA Tech Architecture and Design: Building Real World Asset Tokenization Platforms",
+    "collection": "talks",
+    "type": "Blog",
+    "date": "2025-11-17T00:00:00.000Z",
+    "location": "Singapore",
+    "permalink": "/talks/2025-11-17-rwa-tech-architecture-design",
+    "excerpt": "A comprehensive technical guide to Real World Asset (RWA) tokenization platforms, covering architecture design, smart contract patterns, and lessons from successful projects like MakerDAO, Centrifuge, and Ondo Finance.",
+    "tags": [
+      "blockchain",
+      "rwa",
+      "tokenization",
+      "defi",
+      "smart-contracts",
+      "web3"
+    ],
+    "filename": "2025-11-17-rwa-tech-architecture-design.md"
+  },
+  {
+    "id": "2025-11-17-stablecoin-tech-design-guide",
+    "title": "How to Make a New Stablecoin: Complete Technical Design Guide",
+    "collection": "talks",
+    "type": "Blog",
+    "date": "2025-11-17T00:00:00.000Z",
+    "location": "Singapore",
+    "permalink": "/talks/2025-11-17-stablecoin-tech-design-guide",
+    "excerpt": "A comprehensive technical guide to designing and implementing stablecoins, covering collateralization mechanisms, price stability algorithms, and lessons from successful projects like USDC, DAI, and USDT.",
+    "tags": [
+      "blockchain",
+      "stablecoin",
+      "defi",
+      "smart-contracts",
+      "cryptocurrency",
+      "web3"
+    ],
+    "filename": "2025-11-17-stablecoin-tech-design-guide.md"
+  },
+  {
     "id": "2025-09-19-kiro-spec-tdd-driven-ai-coding",
     "title": "Kiro Spec: TDD-Driven AI Coding",
     "collection": "talks",
