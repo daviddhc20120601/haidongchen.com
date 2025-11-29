@@ -20,11 +20,11 @@ excerpt: "本文详细介绍如何使用NVIDIA Isaac Sim和Autodesk Fusion 360�
 - 🕷️ SpdrBot设计文件：[Indystry.cc SpdrBot](https://indystry.cc/product/3d-printable-4-legged-spider-robot/)
 - 💾 Isaac Lab项目：[GitHub - Indystrycc/SpdrBot](https://github.com/Indystrycc/SpdrBot)
 
-**硬件采购清单：**
-- 🧠 计算平台：[Jetson Orin Nano (Seeed Studio)](https://www.seeedstudio.com/NVIDIA-Jetson-Orin-Nano-Developer-Kit-p-5617.html)
-- ⚙️ 舵机：[Amazon舵机链接](https://amzn.to/4lYqL5C)
-- 🎛️ 舵机驱动板：[Amazon驱动板链接](https://amzn.to/4ogF4Ea)
-- 🖨️ 3D打印机推荐：[ShareASale 3D打印机](https://shareasale.com)
+**硬件采购清单（参考链接）：**
+- 🧠 计算平台：[Jetson Orin Nano Developer Kit](https://www.seeedstudio.com/NVIDIA-Jetson-Orin-Nano-Developer-Kit-p-5617.html) - NVIDIA边缘AI计算平台
+- ⚙️ 舵机：[SG90/MG90S微型舵机](https://amzn.to/4lYqL5C) - 12个，用于关节驱动
+- 🎛️ 舵机驱动板：[PCA9685 16通道PWM驱动板](https://amzn.to/4ogF4Ea) - I2C接口
+- 🖨️ 3D打印机：建议使用支持PLA/PETG的FDM打印机
 
 ---
 
@@ -609,15 +609,27 @@ class SpdrBotEnvCfg:
     # 机器人配置
     robot = ArticulationCfg(
         prim_path="/World/envs/env_.*/Robot",
-        spawn=...,  # URDF导入配置
+        spawn=sim_utils.UrdfFileCfg(
+            asset_path="path/to/spdrbot.urdf",  # 替换为实际URDF路径
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=False,
+                max_depenetration_velocity=10.0,
+            ),
+            articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+                enabled_self_collisions=False,
+                solver_position_iteration_count=4,
+                solver_velocity_iteration_count=0,
+            ),
+        ),
         init_state=ArticulationCfg.InitialStateCfg(
             pos=(0.0, 0.0, 0.15),  # 初始位置（稍高于地面）
             joint_pos={".*": 0.0},  # 初始关节角度
         ),
         actuators={
-            "legs": ActuatorNetMLPCfg(
+            "legs": IdealPDActuatorCfg(
                 joint_names_expr=[".*_joint"],
-                network_file="...",  # 执行器网络文件
+                stiffness=50.0,  # PD控制器刚度
+                damping=5.0,     # PD控制器阻尼
             ),
         },
     )
@@ -1278,13 +1290,13 @@ scaler = GradScaler()
 - 📖 [Isaac Sim文档](https://docs.isaacsim.omniverse.nvidia.com/)
 - 📖 [Isaac Lab文档](https://isaac-sim.github.io/IsaacLab/)
 
-**硬件采购链接：**
-- 🧠 [Jetson Orin Nano](https://www.seeedstudio.com/NVIDIA-Jetson-Orin-Nano-Developer-Kit-p-5617.html)
-- ⚙️ [舵机](https://amzn.to/4lYqL5C)
-- 🎛️ [舵机驱动板](https://amzn.to/4ogF4Ea)
+**硬件采购链接（参考）：**
+- 🧠 [Jetson Orin Nano Developer Kit](https://www.seeedstudio.com/NVIDIA-Jetson-Orin-Nano-Developer-Kit-p-5617.html)
+- ⚙️ [SG90/MG90S微型舵机](https://amzn.to/4lYqL5C)
+- 🎛️ [PCA9685舵机驱动板](https://amzn.to/4ogF4Ea)
 
 **联系方式：**
-- GitHub: @daviddhc20120601
+- GitHub: [github.com/daviddhc20120601](https://github.com/daviddhc20120601)
 - 项目问题：欢迎提Issue或PR
 
 ---
