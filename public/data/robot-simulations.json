@@ -1,5 +1,25 @@
 [
   {
+    "id": "2025-11-29-nvidia-isaac-spdrbot-simulation",
+    "title": "从设计到仿真：使用NVIDIA Isaac Sim和Autodesk Fusion构建SpdrBot四足蜘蛛机器人",
+    "collection": "talks",
+    "type": "Technical Blog",
+    "venue": "NVIDIA Isaac Sim Community",
+    "location": "Online",
+    "date": "2025-11-29T00:00:00.000Z",
+    "tags": [
+      "NVIDIA Isaac",
+      "机器人仿真",
+      "Autodesk Fusion",
+      "四足机器人",
+      "SpdrBot",
+      "强化学习",
+      "3D打印"
+    ],
+    "excerpt": "本文详细介绍如何使用NVIDIA Isaac Sim和Autodesk Fusion 360从零开始构建和仿真一个四足蜘蛛机器人SpdrBot，涵盖从CAD设计、URDF转换到Isaac Sim中的物理仿真和强化学习训练的完整工作流程。",
+    "filename": "2025-11-29-nvidia-isaac-spdrbot-simulation.md"
+  },
+  {
     "id": "2025-11-14-genesis-physics-engine-intro",
     "title": "Genesis：下一代通用物理引擎与机器人仿真平台",
     "collection": "talks",
