@@ -1,5 +1,26 @@
 [
   {
+    "id": "2025-12-06-vla-robotics-new-developments",
+    "title": "VLA机器人新发展：主流视觉-语言-动作模型对比与实战教程",
+    "collection": "talks",
+    "type": "Technical Blog",
+    "venue": "VLA Robotics Community",
+    "location": "Online",
+    "date": "2025-12-06T00:00:00.000Z",
+    "tags": [
+      "VLA",
+      "视觉语言动作模型",
+      "机器人学",
+      "具身智能",
+      "OpenVLA",
+      "Gemini Robotics",
+      "Figure Helix",
+      "Pi0"
+    ],
+    "excerpt": "深入探索Vision-Language-Action（VLA）模型的最新发展，对比OpenVLA、Gemini Robotics 1.5、Figure Helix、Pi0等主流模型，并提供详细的实战教程帮助你快速上手运行这些前沿模型。",
+    "filename": "2025-12-06-vla-robotics-new-developments.md"
+  },
+  {
     "id": "2025-11-29-nvidia-isaac-spdrbot-simulation",
     "title": "从设计到仿真：使用NVIDIA Isaac Sim和Autodesk Fusion构建SpdrBot四足蜘蛛机器人",
     "collection": "talks",
