@@ -6,6 +6,7 @@ venue: "Tech Analysis"
 date: 2025-12-29
 location: "Global"
 permalink: /talks/2025-12-29-github-copilot-claude-skills
+excerpt: "深入探讨GitHub Copilot集成Claude 3.5 Sonnet的技术架构，包括VS Code扩展集成、智能请求路由、四大核心技能（代码分析、审查、文档生成、测试生成），以及在大型重构、Bug诊断、性能优化等实战场景中的应用。文章详细介绍了Claude的200K tokens超长上下文能力、多层缓存架构、安全隐私保护机制，并分析了开发者工作流集成、成本性能权衡等关键话题。"
 ---
 
 # GitHub Copilot 集成 Claude Skills：AI 编程助手的新纪元
