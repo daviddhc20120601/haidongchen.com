@@ -1,5 +1,60 @@
 [
   {
+    "id": "2026-04-05-how-to-become-smart-contract-engineer",
+    "title": "How to Become a Smart Contract Engineer: A Complete Learning Path",
+    "collection": "talks",
+    "type": "Blog",
+    "venue": "",
+    "location": "",
+    "date": "2026-04-05T00:00:00.000Z",
+    "excerpt": "A comprehensive guide to becoming a smart contract engineer, covering the full learning roadmap from foundational skills to advanced on-chain development, security auditing, and career growth.",
+    "tags": [
+      "smart-contract",
+      "blockchain",
+      "solidity",
+      "web3",
+      "career"
+    ],
+    "filename": "2026-04-05-how-to-become-smart-contract-engineer.md"
+  },
+  {
+    "id": "2026-04-05-smart-contract-auditing-token-economics",
+    "title": "Smart Contract Auditing & Screening: Industrial Best Practices Combined with Token Economics",
+    "collection": "talks",
+    "type": "Blog",
+    "venue": "",
+    "location": "",
+    "date": "2026-04-05T00:00:00.000Z",
+    "excerpt": "A practitioner's guide to auditing and screening smart contracts using industrial best practices, integrating token-economic analysis to evaluate both code security and protocol-level incentive design.",
+    "tags": [
+      "smart-contract",
+      "audit",
+      "security",
+      "token-economics",
+      "defi"
+    ],
+    "filename": "2026-04-05-smart-contract-auditing-token-economics.md"
+  },
+  {
+    "id": "2026-04-05-smart-contracts-rwa-audit-sec-compliance",
+    "title": "Smart Contracts in RWA: How On-Chain Assets Interact with Audit Agencies for SEC and Regulatory Compliance",
+    "collection": "talks",
+    "type": "Blog",
+    "venue": "",
+    "location": "",
+    "date": "2026-04-05T00:00:00.000Z",
+    "excerpt": "An in-depth exploration of how smart contracts power real-world asset tokenization, the architecture that makes them auditable by the SEC and traditional agencies, and the emerging compliance patterns bridging on-chain and off-chain worlds.",
+    "tags": [
+      "smart-contract",
+      "RWA",
+      "tokenization",
+      "SEC",
+      "compliance",
+      "audit"
+    ],
+    "filename": "2026-04-05-smart-contracts-rwa-audit-sec-compliance.md"
+  },
+  {
     "id": "2026-01-09-llm-army-agents-vs-single-llm",
     "title": "Why LLM Army of Agents Outperforms Single LLM: MoE and Multi-Agent Systems",
     "collection": "talks",
