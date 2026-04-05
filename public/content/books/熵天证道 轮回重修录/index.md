@@ -9,6 +9,16 @@ description: "一个关于青春、友情和初恋的温馨故事。"
 isMultiFile: true
 chapters:
   - { id: "chapter-01", title: "轮回九转：我靠化学修仙", file: "chapter-01.md" }
+  - { id: "chapter-02", title: "光刻显影：在灵纹矩阵中刻写代码", file: "chapter-02.md" }
+  - { id: "chapter-03", title: "蚀刻深渊：强酸的精度与死亡的边界", file: "chapter-03.md" }
+  - { id: "chapter-04", title: "薄膜沉积：一层原子一层天地", file: "chapter-04.md" }
+  - { id: "chapter-05", title: "离子注入：以粒子为笔重写命运", file: "chapter-05.md" }
+  - { id: "chapter-06", title: "化学机械平坦化：磨平一切不平等", file: "chapter-06.md" }
+  - { id: "chapter-07", title: "等离子刻蚀：天雷为刃，气为锋刃", file: "chapter-07.md" }
+  - { id: "chapter-08", title: "量子隧穿：穿墙而过的修仙捷径", file: "chapter-08.md" }
+  - { id: "chapter-09", title: "多层互连：万道归一的线路图", file: "chapter-09.md" }
+  - { id: "chapter-10", title: "封装与点亮：第一颗芯片的诞生", file: "chapter-10.md" }
+  - { id: "chapter-11", title: "熵流芯阵：诸天计算，大道归零", file: "chapter-11.md" }
 
 ---
 
