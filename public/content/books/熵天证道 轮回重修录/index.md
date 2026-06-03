@@ -26,6 +26,9 @@ chapters:
   - { id: "chapter-16", title: "下游爆发：应用端的灵气革命", file: "chapter-16.md" }
   - { id: "chapter-17", title: "高带宽灵晶：供应链的共荣与锁链", file: "chapter-17.md" }
   - { id: "chapter-18", title: "算力如水电：第三代核心基础设施", file: "chapter-18.md" }
+  - { id: "chapter-19", title: "丹林山脉：伏兵的终结与奇遇", file: "chapter-19.md" }
+  - { id: "chapter-20", title: "黑伞精锐：降维打击", file: "chapter-20.md" }
+  - { id: "chapter-21", title: "碧霄宗的试炼：以数算破千年法", file: "chapter-21.md" }
 
 ---
 
