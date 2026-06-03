@@ -29,6 +29,16 @@ chapters:
   - { id: "chapter-19", title: "丹林山脉：伏兵的终结与奇遇", file: "chapter-19.md" }
   - { id: "chapter-20", title: "黑伞精锐：降维打击", file: "chapter-20.md" }
   - { id: "chapter-21", title: "碧霄宗的试炼：以数算破千年法", file: "chapter-21.md" }
+  - { id: "chapter-22", title: "熵根推演：破境算法", file: "chapter-22.md" }
+  - { id: "chapter-23", title: "活符革命：可编程符咒", file: "chapter-23.md" }
+  - { id: "chapter-24", title: "炼器突破：第一把算力武器", file: "chapter-24.md" }
+  - { id: "chapter-25", title: "南境主城：算力之都的蓝图", file: "chapter-25.md" }
+  - { id: "chapter-26", title: "资源矩阵：灵田、矿脉、物流", file: "chapter-26.md" }
+  - { id: "chapter-27", title: "黑伞总坛的决策：围剿令", file: "chapter-27.md" }
+  - { id: "chapter-28", title: "战前七日：全面备战", file: "chapter-28.md" }
+  - { id: "chapter-29", title: "史诗大战（上）：首波冲击", file: "chapter-29.md" }
+  - { id: "chapter-30", title: "史诗大战（中）：以算御战", file: "chapter-30.md" }
+  - { id: "chapter-31", title: "史诗大战（下）：破而后立", file: "chapter-31.md" }
 
 ---
 
