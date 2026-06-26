@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v0.4.0). Must already exist.'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve tag
+        id: tag
+        run: |
+          if [ -n "${{ inputs.tag }}" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="${GITHUB_REF#refs/tags/}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Resolved release tag: $TAG"
+
+      - name: Read release notes
+        id: notes
+        run: |
+          if [ ! -f RELEASE_NOTES.md ]; then
+            echo "RELEASE_NOTES.md not found" >&2
+            exit 1
+          fi
+          # Extract the first '# vX.Y.Z — ...' section as the release body.
+          # Everything from the first '# v' line up to the next '---' separator
+          # (or EOF) is treated as the current release note.
+          BODY=$(awk '
+            /^# v[0-9]/ { if (!found) { found=1; print; next } else { exit } }
+            found && /^---$/ { exit }
+            found { print }
+          ' RELEASE_NOTES.md)
+          if [ -z "$BODY" ]; then
+            echo "No '# vX.Y.Z' section found in RELEASE_NOTES.md" >&2
+            exit 1
+          fi
+          {
+            echo "body<<EOF"
+            echo "$BODY"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Verify CHANGELOG entry exists for tag
+        run: |
+          TAG="${{ steps.tag.outputs.tag }}"
+          if ! grep -q "^\## \[${TAG#v}\]" CHANGELOG.md; then
+            echo "Warning: no '## [${TAG#v}]' section found in CHANGELOG.md"
+            echo "The release will still be created, but consider adding the section."
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: ${{ steps.tag.outputs.tag }}
+          body: ${{ steps.notes.outputs.body }}
+          draft: false
+          prerelease: false
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

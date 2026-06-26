@@ -1,0 +1,34 @@
+# Files/dirs Vercel does not need to upload or build.
+# Vercel only needs source + public + scripts + config to produce dist/.
+
+# Dependencies (reinstalled by Vercel from package-lock.json)
+node_modules
+
+# Local build output (Vercel builds fresh in its own sandbox)
+dist
+dist-ssr
+
+# Old site archive
+old_site.zip
+
+# Legacy docs / readmes not needed for the build
+docs
+README_old.md
+README_old2.md
+
+# Git
+.git
+.gitignore
+
+# Docker (not used by Vercel)
+Dockerfile
+docker-compose.yml
+
+# CI
+.github
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+*.log

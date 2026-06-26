@@ -4,44 +4,49 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'public/**/*.md'  # Trigger when .md files in public directory or subdirectories change
-      - 'public/data/*.json'  # Also trigger when JSON data files change
   # Allow manual triggering
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all history for proper deployment
-        
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Using a more stable version
+          node-version: '20'  # Align with Vercel's default Node version
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
-      - name: Generate JSON from Markdown
-        run: node scripts/generateJsonFromMarkdown.js
-        
-      - name: Build site
+
+      - name: Build site (Vercel-compatible)
         run: npm run build
-        
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages  # The branch the action should deploy to
-          folder: dist      # The folder the action should deploy
-          clean: true       # Automatically remove deleted files from the deploy branch
-          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub automatically provides this token
+
+      # Deploy to Vercel. Set VERCEL_TOKEN and VERCEL_ORG_ID / VERCEL_PROJECT_ID
+      # as repository secrets (see vercel.json + Vercel project settings).
+      # Vercel's native Git integration usually handles deploys automatically,
+      # this step is an explicit fallback for content-only pushes.
+      - name: Deploy to Vercel
+        if: success()
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "Vercel secrets not configured — skipping explicit deploy."
+            echo "If you have linked the repo via the Vercel Git integration, the deploy already happened on push."
+            exit 0
+          fi
+          npm i -g vercel@latest
+          vercel --prod --yes --token="$VERCEL_TOKEN" --org="$VERCEL_ORG_ID" --project="$VERCEL_PROJECT_ID"
 
       # Notify DingTalk if configured (using curl instead of action)
       - name: Notify DingTalk
@@ -51,13 +56,13 @@ jobs:
         run: |
           if [ -n "$DINGTALK_WEBHOOK_URL" ]; then
             # Prepare markdown message
-            MSG="### 🎉 haidongchen.com Deployment Successful\n\n**Repository:** ${{ github.repository }}\n**Branch:** ${{ github.ref_name }}\n**Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n**Triggered By:** ${{ github.actor }}\n\nContent changes have been published to GitHub Pages.\n[View the website](https://haidongchen.com)"
-            
+            MSG="### 🎉 Vercel Deployment Successful\n\n**Repository:** ${{ github.repository }}\n**Branch:** ${{ github.ref_name }}\n**Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n**Triggered By:** ${{ github.actor }}\n\nContent changes have been published to Vercel."
+
             # Send to DingTalk
             curl -X POST "$DINGTALK_WEBHOOK_URL" \
                  -H "Content-Type: application/json" \
                  -d "{\"msgtype\":\"markdown\",\"markdown\":{\"title\":\"Deployment Successful\",\"text\":\"$MSG\"}}"
-            
+
             echo "DingTalk notification sent"
           else
             echo "DINGTALK_WEBHOOK_URL is not set, skipping notification"
@@ -74,9 +79,9 @@ jobs:
             curl -H "Title: Website Deployment Successful" \
                  -H "Priority: default" \
                  -H "Tags: white_check_mark" \
-                 -d "Content changes for ${{ github.repository }} have been published to GitHub Pages." \
+                 -d "Content changes for ${{ github.repository }} have been published to Vercel." \
                  "$NTFY_WEBHOOK_URL"
-            
+
             echo "ntfy notification sent"
           else
             echo "NTFY_WEBHOOK_URL is not set, skipping notification"
@@ -87,4 +92,4 @@ jobs:
         run: |
           echo "🎉 Deployment completed successfully!"
           echo "New content changes have been published."
-          echo "Deployed to: https://daviddhc20120601.github.io"
+          echo "Deployed to Vercel"

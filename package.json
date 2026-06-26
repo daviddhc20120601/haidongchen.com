@@ -3,10 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://daviddhc20120601.github.io",
+  "homepage": "https://haidongchen.com",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
+    "dev": "node scripts/generateJsonFromMarkdown.js && vite --host 0.0.0.0",
     "build": "node scripts/generateJsonFromMarkdown.js && vite build",
+    "vercel-build": "node scripts/generateJsonFromMarkdown.js && vite build",
     "generate-json": "node scripts/generateJsonFromMarkdown.js",
     "setup-hooks": "bash scripts/setup-hooks.sh",
     "lint": "eslint vite_refactor/academic-site --ext js,jsx --report-unused-disable-directives --max-warnings 0",
