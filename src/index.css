@@ -1,42 +1,74 @@
 /* ===== VARIABLES ===== */
 :root {
-  --main-color: #2c3e50;
-  --accent-color: #3498db;
-  --gradient-blue: linear-gradient(90deg, #3498db, #2c3e50);
-  --gradient-nav: linear-gradient(90deg, #2c3e50, #3498db);
-  --gradient-sidebar: linear-gradient(135deg, #2c3e50 0%, #1a2a3a 100%);
-  --gradient-orange: linear-gradient(90deg, #e74c3c, #f39c12);
-  --gradient-btn: linear-gradient(135deg, #3498db, #2980b9);
-  --shadow-sm: 0 3px 10px rgba(0,0,0,0.08);
-  --shadow-md: 0 5px 15px rgba(0,0,0,0.1);
-  --shadow-lg: 0 8px 25px rgba(0,0,0,0.1);
-  --transition-normal: all 0.3s ease;
-  --light-gray: #f8f9fa;
-  --border-radius: 10px;
+  /* Modern palette — cohesive blue→indigo system on a slate neutral base */
+  --main-color: #1e293b;          /* slate-800 (softer than near-black) */
+  --accent-color: #3b82f6;        /* blue-500 */
+  --accent-hover: #2563eb;        /* blue-600 */
+  --accent-soft: rgba(59, 130, 246, 0.12);
+  --ink-muted: #64748b;           /* slate-500 */
+  --surface: #ffffff;
+  --surface-2: #f8fafc;           /* slate-50 */
+  --border-color: #e2e8f0;        /* slate-200 */
+
+  --gradient-blue: linear-gradient(135deg, #3b82f6, #6366f1);
+  --gradient-nav: linear-gradient(120deg, #1e293b 0%, #312e81 100%);
+  --gradient-sidebar: linear-gradient(160deg, #1e293b 0%, #0f172a 100%);
+  --gradient-orange: linear-gradient(90deg, #fb7185, #f59e0b);
+  --gradient-btn: linear-gradient(135deg, #3b82f6, #6366f1);
+
+  /* Softer, layered modern shadows */
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.06), 0 1px 3px rgba(15,23,42,0.10);
+  --shadow-md: 0 4px 6px -1px rgba(15,23,42,0.08), 0 2px 4px -2px rgba(15,23,42,0.06);
+  --shadow-lg: 0 12px 24px -6px rgba(15,23,42,0.12), 0 6px 12px -8px rgba(15,23,42,0.10);
+
+  --transition-normal: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --light-gray: #f1f5f9;          /* slate-100 */
+  --border-radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 20px;
   --max-width: 900px;
-  --primary-purple: #8a2be2;
-  --primary-teal: #00ced1;
-  --primary-coral: #ff6347;
-  --primary-gold: #ffd700;
-  --primary-magenta: #ff00ff;
-  --gradient-purple-blue: linear-gradient(135deg, #9370db, #00bfff);
-  --gradient-teal-blue: linear-gradient(135deg, #00ced1, #1e90ff);
-  --gradient-coral-gold: linear-gradient(135deg, #ff6347, #ffd700);
-  --gradient-purple-magenta: linear-gradient(135deg, #8a2be2, #ff1493);
+
+  --primary-purple: #8b5cf6;
+  --primary-teal: #06b6d4;
+  --primary-coral: #fb7185;
+  --primary-gold: #f59e0b;
+  --primary-magenta: #ec4899;
+  --gradient-purple-blue: linear-gradient(135deg, #818cf8, #38bdf8);
+  --gradient-teal-blue: linear-gradient(135deg, #06b6d4, #3b82f6);
+  --gradient-coral-gold: linear-gradient(135deg, #fb7185, #f59e0b);
+  --gradient-purple-magenta: linear-gradient(135deg, #8b5cf6, #ec4899);
   --gradient-rainbow: linear-gradient(to right, #ff0000, #ff8000, #ffff00, #80ff00, #00ff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff, #ff00ff, #ff0080);
 }
 
 /* ===== GLOBAL STYLES ===== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Inter', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
-  color: #333;
-  background-color: #f5f7fa;
+  color: #334155;
+  background-color: var(--surface-2);
+  overflow-x: hidden;
   /* iOS Safari improvements */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  /* Remove tap highlight + respect safe areas on notched phones */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Modern, accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 #root {
@@ -88,7 +120,7 @@ a {
 }
 
 a:hover {
-  color: #2980b9;
+  color: var(--accent-hover);
 }
 
 /* ===== LAYOUT ===== */
@@ -2642,5 +2674,268 @@ nav a.active {
     padding: 10px 12px;
     font-size: 0.8rem;
     letter-spacing: 0.3px;
+  }
+}
+
+/* =====================================================================
+   MODERN UI + MOBILE ENHANCEMENT LAYER
+   AI-assisted (Cursor) — review before merge.
+   Layered last so it refines the components above without rewriting them.
+   ===================================================================== */
+
+/* ---- Dynamic viewport + safe areas (notch / home-indicator phones) ---- */
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ---- Layout: edge-to-edge on mobile, floating card on desktop ---- */
+.layout-container {
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .layout-container {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    background: var(--surface);
+    margin: 0 auto 24px;
+  }
+}
+
+.main-content {
+  background: var(--surface);
+}
+
+@media (max-width: 767px) {
+  .main-content {
+    background: transparent;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+}
+
+/* ---- Header / Navigation: modern glass + pill active state ---- */
+header {
+  background: var(--gradient-nav);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06), var(--shadow-sm);
+  padding-top: env(safe-area-inset-top);
+}
+
+nav {
+  gap: 4px;
+  padding: 6px 14px;
+  scroll-snap-type: x proximity;
+}
+
+nav a {
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 0.82rem;
+  letter-spacing: 0.4px;
+  scroll-snap-align: center;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+/* Replace the underline indicator with a modern pill highlight */
+nav a:after {
+  display: none;
+}
+
+nav a:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+}
+
+nav a.active {
+  background: rgba(255,255,255,0.16);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+}
+
+/* ---- Buttons: modern, cohesive, accessible ---- */
+.btn {
+  border-radius: 10px;
+  padding: 10px 20px;
+  letter-spacing: 0.2px;
+  transition: var(--transition-normal);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  filter: saturate(1.05);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: var(--gradient-btn);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--main-color);
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.btn-secondary:hover {
+  background: var(--light-gray);
+  border-color: #cbd5e1;
+}
+
+/* ---- Cards: softer borders, modern radius, refined hover ---- */
+.content-card,
+.publication,
+.talk,
+.bio-section,
+.book-card,
+.book-intro,
+.chapters-list,
+.simulation-item,
+.api-selector {
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.publication,
+.talk,
+.simulation-item {
+  border-left: 4px solid var(--accent-color);
+}
+
+.content-card:hover,
+.publication:hover,
+.talk:hover,
+.simulation-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---- Page titles: modern gradient underline ---- */
+.page-title {
+  border-bottom: none;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.page-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 56px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--gradient-btn);
+}
+
+/* ---- Books grid: modern responsive cards ---- */
+.book-card {
+  border: 1px solid var(--border-color);
+}
+
+.book-cover {
+  height: 130px;
+  background: var(--gradient-purple-blue);
+}
+
+/* ---- Reader controls: sticky modern bar ---- */
+.reading-controls,
+.chapter-navigation {
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
+  background: rgba(255,255,255,0.85);
+}
+
+.dark-theme .reading-controls,
+.dark-theme .chapter-navigation {
+  background: rgba(26,26,26,0.85);
+}
+
+/* ---- Inputs / selects: modern focus ---- */
+.api-select,
+.model-select,
+.api-key-input,
+.message-input {
+  border-radius: 10px;
+  border-color: var(--border-color);
+}
+
+/* ---- Tap targets: ensure comfortable mobile hit areas ---- */
+@media (max-width: 767px) {
+  .btn,
+  .btn-sm,
+  .chapter-link,
+  .social-link,
+  .show-key-button {
+    min-height: 44px;
+  }
+
+  .btn,
+  .btn-sm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Books and chapter grids go single-column for readability */
+  .books-grid,
+  .chapters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reader content gets comfortable mobile reading width + safe areas */
+  .book-content,
+  .chapter-content,
+  .book-metadata,
+  .chapter-metadata {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  /* Sticky footers respect the home indicator */
+  .reading-footer {
+    padding-bottom: max(15px, env(safe-area-inset-bottom));
+  }
+}
+
+/* ---- Reader full-height uses dynamic viewport on mobile ---- */
+.book-reader {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ---- LLM chat: dynamic viewport height ---- */
+@supports (height: 100dvh) {
+  .llm-agents-container {
+    height: calc(100dvh - 120px);
+  }
+  @media (max-width: 768px) {
+    .llm-agents-container {
+      height: calc(100dvh - 80px);
+    }
+  }
+}
+
+/* ---- Smoother momentum scrolling everywhere on iOS ---- */
+.messages-container,
+.table-wrapper,
+.markdown-content pre {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---- Honor reduced-motion for the new transitions too ---- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

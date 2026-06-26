@@ -14,12 +14,21 @@ of this file for how to cut a new release.
 ### Added
 - Nothing yet. Add upcoming changes here as they land.
 
-## [0.4.0] - 2026-06-26 — Vercel refactor & release management
+## [0.4.0] - 2026-06-26 — Vercel refactor, modern UI & release management
 
 ### Added
 - Vercel deployment configuration (`vercel.json`, `.vercelignore`) with SPA
   fallback rewrites, cache headers, and correct `Content-Type` for markdown /
   JSON assets.
+- Modern design-token system in `src/index.css` (cohesive blue→indigo palette
+  on a slate-neutral base, softer layered shadows, larger radii, modern
+  transitions) plus the **Inter** web font.
+- Mobile optimization layer: edge-to-edge layout on phones, glass header with
+  pill-style nav, 44px touch targets, single-column books/chapters grids,
+  dynamic viewport (`100dvh`) for the reader and chat, and
+  `env(safe-area-inset-*)` padding for notch / home-indicator devices.
+- Accessible `:focus-visible` ring and `prefers-reduced-motion` support;
+  re-enabled pinch-zoom (removed `user-scalable=no`).
 - `npm run vercel-build` script as an explicit alias of `npm run build` for
   Vercel build pipeline visibility.
 - GitHub Actions workflow step for optional explicit Vercel CLI deploy
@@ -51,6 +60,9 @@ of this file for how to cut a new release.
   (`https://haidongchen.com`).
 - `README.md` rewritten to document Vercel as the primary deploy target,
   the SPA fallback behavior, and the optional CI deploy.
+- Refreshed UI surfaces (header/nav, buttons, cards, page titles, reader
+  control bars) toward a cleaner, modern look via a cascade-last enhancement
+  layer; `index.html` gains `theme-color` and mobile web-app meta tags.
 
 ### Removed
 - GitHub Pages `gh-pages` deploy step from the CI workflow (replaced by the

@@ -31,10 +31,10 @@
 
 ---
 
-# v0.4.0 — Vercel refactor & release management
+# v0.4.0 — Vercel refactor, modern UI & release management
 
-_Deployment moved to Vercel with clean URLs, SPA fallback, and proper
-release management._
+_Deployment moved to Vercel with clean URLs and an SPA fallback, a modern
+mobile-first UI refresh, and proper release management._
 
 ## Highlights
 - **Vercel is now the primary deploy target.** Import the repo at
@@ -44,6 +44,10 @@ release management._
   with an SPA fallback rewrite, so every page (including deep links like
   `/book/熵天证道 轮回重修录/chapter/chapter-31`) resolves on cold loads,
   refreshes, and shares.
+- **Modern, mobile-first UI.** Refreshed palette (blue→indigo on slate),
+  Inter font, softer shadows, glass header with pill nav, and a mobile
+  layer with 44px touch targets, safe-area insets, and dynamic-viewport
+  reader/chat — verified at 390px with zero horizontal overflow.
 - **Prod-level release management.** Added `CHANGELOG.md` (Keep a
   Changelog format) and this `RELEASE_NOTES.md`, plus a `release.yml`
   workflow that cuts a tagged GitHub Release from these notes.
