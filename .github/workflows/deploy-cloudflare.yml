@@ -44,7 +44,7 @@ jobs:
           npx gh-pages \
             --dist dist \
             --branch gh-pages \
-            --user "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+            --user "github-actions <github-actions@github.com>" \
             --message "Deploy ${SOURCE_SHA}"
 
       # A green workflow now means the custom domain is serving this release,
