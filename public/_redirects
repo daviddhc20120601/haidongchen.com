@@ -1,0 +1,4 @@
+# Cloudflare Pages SPA fallback.
+# Pages serves a matching static asset first and only falls through to these
+# rules when nothing matches, so this does not shadow /assets, /content or /data.
+/*    /index.html   200

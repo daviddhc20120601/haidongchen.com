@@ -176,7 +176,7 @@ export default function RobotSimulation() {
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeRaw, rehypeSanitize]}
           components={{
-            code({ node, inline, className, children, ...props }) {
+            code({ inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || '');
               const lang = match ? match[1] : null;
 
@@ -194,7 +194,7 @@ export default function RobotSimulation() {
                 </code>
               );
             },
-            a({ node, href, children, ...props }) {
+            a({ href, children, ...props }) {
               const isExternal = href && (href.startsWith('http://') || href.startsWith('https://'));
               return (
                 <a

@@ -9,14 +9,23 @@ export default function Sidebar() {
           src="/profile.png"
           alt="Haidong Chen"
           className="profile-image"
-          onError={(e) => e.target.src = 'https://via.placeholder.com/200'}
+          width="120"
+          height="180"
+          onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
         />
         <h2>Haidong Chen</h2>
-        <p className="title">Director of Solution Architecture</p>
+        <p className="title">GPU AI Factory · Principal Engineer</p>
         <p className="bio-text">
-          Focused on Gen-AI solutions, E-commerce Industry Solutions,
-          Cloud Native, Data Infrastructure, and Web3.0 technologies.
+          Building and commissioning large-scale NVIDIA GPU clusters — rack-scale
+          architecture, InfiniBand fabrics, liquid cooling, and tuned training
+          recipes for Blackwell and Hopper. Currently at Firmus, an NVIDIA Cloud Partner.
         </p>
+
+        <ul className="sidebar-tags">
+          {['AI Factory', 'GB200 NVL72', 'InfiniBand', 'Liquid Cooling', 'FP8 / NVFP4', 'LLM Training'].map((tag) => (
+            <li className="sidebar-tag" key={tag}>{tag}</li>
+          ))}
+        </ul>
 
         <div className="social-links">
           <a href="https://github.com/daviddhc20120601" target="_blank" rel="noopener noreferrer" className="social-link">

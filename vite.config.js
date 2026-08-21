@@ -7,6 +7,26 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
+  build: {
+    // Mermaid ships very large lazy diagram chunks; the app's own code is far
+    // below this. Raise the bar so the warning flags real regressions only.
+    chunkSizeWarningLimit: 900,
+    rollupOptions: {
+      output: {
+        // Split React out of app code so a content-only deploy doesn't
+        // invalidate it in visitors' caches. Deliberately NOT chunking the
+        // markdown pipeline here: naming a manual chunk makes Vite emit a
+        // modulepreload for it on every page, which would pull ~350 kB onto
+        // the landing page that never renders markdown. Left alone, Rollup
+        // derives it as a shared chunk of the lazy routes instead.
+        // 'react-dom/client' is a distinct module id from 'react-dom' and has
+        // to be listed explicitly or the renderer stays in the entry chunk.
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-dom/client', 'react-router-dom'],
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     {

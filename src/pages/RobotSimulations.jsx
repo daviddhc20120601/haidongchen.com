@@ -1,7 +1,7 @@
 // src/pages/RobotSimulations.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getMarkdownFiles } from '../utils/MarkdownService.jsx';
+import { getMarkdownFiles } from '../utils/contentApi.js';
 
 /**
  * 机器人仿真列表页面组件

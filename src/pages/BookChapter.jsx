@@ -1,5 +1,5 @@
 // src/pages/BookChapter.jsx
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -136,26 +136,26 @@ export default function BookChapter() {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
-  const goToPreviousChapter = () => {
+  const goToPreviousChapter = useCallback(() => {
     if (currentChapterIndex > 0) {
       const prevChapter = chapters[currentChapterIndex - 1];
       navigate(`/book/${bookId}/chapter/${prevChapter.id}`);
     }
-  };
+  }, [currentChapterIndex, chapters, bookId, navigate]);
 
-  const goToNextChapter = () => {
+  const goToNextChapter = useCallback(() => {
     if (currentChapterIndex < chapters.length - 1) {
       const nextChapter = chapters[currentChapterIndex + 1];
       navigate(`/book/${bookId}/chapter/${nextChapter.id}`);
     }
-  };
+  }, [currentChapterIndex, chapters, bookId, navigate]);
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'ArrowLeft' && currentChapterIndex > 0) {
+      if (event.key === 'ArrowLeft') {
         goToPreviousChapter();
-      } else if (event.key === 'ArrowRight' && currentChapterIndex < chapters.length - 1) {
+      } else if (event.key === 'ArrowRight') {
         goToNextChapter();
       }
     };
@@ -164,7 +164,7 @@ export default function BookChapter() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentChapterIndex, chapters.length]);
+  }, [goToPreviousChapter, goToNextChapter]);
 
   if (isLoading) return (
     <div className="loading-container">

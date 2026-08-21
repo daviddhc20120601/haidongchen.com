@@ -1,7 +1,7 @@
 // src/pages/Books.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getMarkdownFiles } from '../utils/MarkdownService.jsx';
+import { getMarkdownFiles } from '../utils/contentApi.js';
 
 export default function Books() {
   const [books, setBooks] = useState([]);
@@ -48,41 +48,6 @@ export default function Books() {
 
     loadBooks();
   }, []);
-
-  const extractFrontmatter = (markdown) => {
-    const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
-    const match = markdown.match(frontmatterRegex);
-
-    if (!match) return {};
-
-    const frontmatter = match[1];
-    const metadata = {};
-
-    const lines = frontmatter.split('\n');
-    for (const line of lines) {
-      const colonIndex = line.indexOf(':');
-      if (colonIndex === -1) continue;
-
-      const key = line.slice(0, colonIndex).trim();
-      let value = line.slice(colonIndex + 1).trim();
-
-      // Handle special cases like arrays
-      if (key === 'chapters' && value.includes('[')) {
-        // Skip parsing complex chapter arrays for now
-        continue;
-      }
-
-      // Remove quotes if present
-      if ((value.startsWith("'") && value.endsWith("'")) ||
-          (value.startsWith('"') && value.endsWith('"'))) {
-        value = value.slice(1, -1);
-      }
-
-      metadata[key] = value;
-    }
-
-    return metadata;
-  };
 
   const formatDate = (dateString) => {
     if (!dateString) return '';

@@ -113,7 +113,7 @@ export default function Talk() {
 
   // Custom component for code blocks to properly handle Mermaid diagrams
   const components = {
-    code({ node, inline, className, children, ...props }) {
+    code({ inline, className, children, ...props }) {
       const match = /language-(\w+)/.exec(className || '');
       const language = match && match[1];
 

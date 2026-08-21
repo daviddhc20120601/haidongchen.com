@@ -6,22 +6,11 @@ import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
 import { useLocation } from 'react-router-dom';
 
-// Function to fetch pre-generated JSON data for collections
-export async function getMarkdownFiles(type) {
-  // Construct the path to the JSON file in the public/data directory
-  const jsonPath = `/data/${type}.json`; // Assumes JSON files are served from /data/
-  try {
-    const response = await fetch(jsonPath);
-    if (!response.ok) {
-      throw new Error(`Failed to load ${type} data: ${response.status} ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(`Error fetching ${jsonPath}:`, error);
-    // Re-throw the error to be caught by the calling component
-    throw error;
-  }
+// Flatten an mdast node back to its plain text, ignoring inline formatting.
+function nodeText(node) {
+  if (!node) return '';
+  if (node.value) return node.value;
+  return (node.children || []).map(nodeText).join('');
 }
 
 // Renamed the component to avoid confusion with the service functions
@@ -106,7 +95,27 @@ export function MarkdownRenderer({ filePath }) {
 
   // Custom component for code blocks to properly handle Mermaid diagrams
   const components = {
-    code({ node, inline, className, children, ...props }) {
+    // "**Technologies**: a, b, c" reads better as a row of skill tags than as prose.
+    p({ node, children, ...props }) {
+      const label = nodeText(node).match(/^(Technologies|Focus Areas)\s*:\s*([\s\S]+)$/);
+      if (label) {
+        const tags = label[2].split(',').map((t) => t.trim()).filter(Boolean);
+        if (tags.length > 1) {
+          return (
+            <div className="tech-stack-block">
+              <span className="tech-stack-label">{label[1]}</span>
+              <ul className="tech-stack">
+                {tags.map((tag) => (
+                  <li className="tech-pill" key={tag}>{tag}</li>
+                ))}
+              </ul>
+            </div>
+          );
+        }
+      }
+      return <p {...props}>{children}</p>;
+    },
+    code({ inline, className, children, ...props }) {
       const match = /language-(\w+)/.exec(className || '');
       const language = match && match[1];
 

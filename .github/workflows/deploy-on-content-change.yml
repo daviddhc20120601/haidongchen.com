@@ -1,11 +1,18 @@
-name: Deploy on Content Change
+name: Deploy to Vercel (manual)
 
+# Cloudflare Pages is the automatic deploy target (see deploy-cloudflare.yml).
+# This workflow is kept as a manually-triggered fallback so a push doesn't
+# publish the same commit to two hosts.
 on:
-  push:
-    branches:
-      - master
-  # Allow manual triggering
   workflow_dispatch:
+
+# Least privilege — this workflow only reads the repo and talks to Vercel.
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-vercel
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -13,18 +20,22 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           fetch-depth: 0  # Fetch all history for proper deployment
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: '20'  # Align with Vercel's default Node version
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Lint
+        run: npm run lint
 
       - name: Build site (Vercel-compatible)
         run: npm run build
@@ -45,28 +56,40 @@ jobs:
             echo "If you have linked the repo via the Vercel Git integration, the deploy already happened on push."
             exit 0
           fi
-          npm i -g vercel@latest
+          npm i -g vercel@59.3.0
           vercel --prod --yes --token="$VERCEL_TOKEN" --org="$VERCEL_ORG_ID" --project="$VERCEL_PROJECT_ID"
 
-      # Notify DingTalk if configured (using curl instead of action)
+      # Notify DingTalk if configured (using curl instead of action).
+      # GitHub context values are bound to env vars and the JSON body is built
+      # with jq — never interpolated into the shell, which would allow a
+      # crafted branch name to inject commands.
       - name: Notify DingTalk
         if: success()
         env:
           DINGTALK_WEBHOOK_URL: ${{ secrets.DINGTALK_WEBHOOK_URL }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+          ACTOR: ${{ github.actor }}
         run: |
-          if [ -n "$DINGTALK_WEBHOOK_URL" ]; then
-            # Prepare markdown message
-            MSG="### 🎉 Vercel Deployment Successful\n\n**Repository:** ${{ github.repository }}\n**Branch:** ${{ github.ref_name }}\n**Commit:** [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\n**Triggered By:** ${{ github.actor }}\n\nContent changes have been published to Vercel."
-
-            # Send to DingTalk
-            curl -X POST "$DINGTALK_WEBHOOK_URL" \
-                 -H "Content-Type: application/json" \
-                 -d "{\"msgtype\":\"markdown\",\"markdown\":{\"title\":\"Deployment Successful\",\"text\":\"$MSG\"}}"
-
-            echo "DingTalk notification sent"
-          else
+          if [ -z "$DINGTALK_WEBHOOK_URL" ]; then
             echo "DINGTALK_WEBHOOK_URL is not set, skipping notification"
+            exit 0
           fi
+          TEXT="### 🎉 Deployment Successful
+
+          **Repository:** ${REPO}
+          **Branch:** ${BRANCH}
+          **Commit:** [${COMMIT_SHA}](https://github.com/${REPO}/commit/${COMMIT_SHA})
+          **Triggered By:** ${ACTOR}
+
+          Content changes have been published."
+          jq -n --arg text "$TEXT" \
+            '{msgtype:"markdown", markdown:{title:"Deployment Successful", text:$text}}' \
+            | curl -sS -X POST "$DINGTALK_WEBHOOK_URL" \
+                   -H "Content-Type: application/json" \
+                   --data @-
+          echo "DingTalk notification sent"
         continue-on-error: true
 
       # Notify ntfy if configured
@@ -74,22 +97,21 @@ jobs:
         if: success()
         env:
           NTFY_WEBHOOK_URL: ${{ secrets.NTFY_WEBHOOK_URL }}
+          REPO: ${{ github.repository }}
         run: |
-          if [ -n "$NTFY_WEBHOOK_URL" ]; then
-            curl -H "Title: Website Deployment Successful" \
-                 -H "Priority: default" \
-                 -H "Tags: white_check_mark" \
-                 -d "Content changes for ${{ github.repository }} have been published to Vercel." \
-                 "$NTFY_WEBHOOK_URL"
-
-            echo "ntfy notification sent"
-          else
+          if [ -z "$NTFY_WEBHOOK_URL" ]; then
             echo "NTFY_WEBHOOK_URL is not set, skipping notification"
+            exit 0
           fi
+          curl -sS -H "Title: Website Deployment Successful" \
+               -H "Priority: default" \
+               -H "Tags: white_check_mark" \
+               --data-raw "Content changes for ${REPO} have been published." \
+               "$NTFY_WEBHOOK_URL"
+          echo "ntfy notification sent"
         continue-on-error: true
 
       - name: Notify on success
         run: |
           echo "🎉 Deployment completed successfully!"
           echo "New content changes have been published."
-          echo "Deployed to Vercel"
