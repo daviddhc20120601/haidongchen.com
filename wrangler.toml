@@ -1,6 +1,0 @@
-# Cloudflare Pages project config.
-# Routing and headers live in public/_redirects and public/_headers, which Vite
-# copies verbatim into dist/ at build time.
-name = "haidongchen"
-pages_build_output_dir = "dist"
-compatibility_date = "2026-08-21"

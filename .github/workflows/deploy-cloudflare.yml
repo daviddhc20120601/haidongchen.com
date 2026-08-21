@@ -6,11 +6,11 @@ on:
       - master
   workflow_dispatch:
 
-# The deploy needs nothing from the GitHub API beyond reading the repo;
-# deployments: write lets Pages surface the environment URL on the commit.
+# This Cloudflare Pages project is Git-integrated with gh-pages as its
+# production branch. Build master, publish dist/ to gh-pages, then Cloudflare
+# deploys that branch and serves it on haidongchen.com.
 permissions:
-  contents: read
-  deployments: write
+  contents: write
 
 concurrency:
   group: deploy-cloudflare
@@ -24,8 +24,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
-        with:
-          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
@@ -39,13 +37,31 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Requires two repository secrets:
-      #   CLOUDFLARE_API_TOKEN  - scoped to "Cloudflare Pages: Edit" only
-      #   CLOUDFLARE_ACCOUNT_ID - the account that owns the Pages project
-      # Do NOT reuse a read-only token here; it cannot publish.
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=haidongchen --branch=master
+      - name: Publish build to production branch
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          npx gh-pages \
+            --dist dist \
+            --branch gh-pages \
+            --user "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+            --message "Deploy ${SOURCE_SHA}"
+
+      # A green workflow now means the custom domain is serving this release,
+      # not merely that files were pushed to the deployment branch.
+      - name: Verify haidongchen.com updated
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error \
+              --max-time 15 \
+              --header "Cache-Control: no-cache" \
+              https://haidongchen.com/ \
+              | grep --quiet "GPU AI Factory Principal Engineer"; then
+              echo "haidongchen.com is serving the new site."
+              exit 0
+            fi
+            echo "Waiting for Cloudflare deployment (${attempt}/30)..."
+            sleep 10
+          done
+          echo "::error::Cloudflare did not update haidongchen.com within five minutes."
+          exit 1
