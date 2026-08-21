@@ -40,8 +40,17 @@ jobs:
       - name: Publish build to production branch
         env:
           SOURCE_SHA: ${{ github.sha }}
+          GH_TOKEN: ${{ github.token }}
         run: |
+          # gh-pages clones into its own cache, outside checkout's repository-
+          # local auth config. Pass the workflow token to child Git processes
+          # through ephemeral environment config; never store it in the remote.
+          git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          export GIT_CONFIG_COUNT=1
+          export GIT_CONFIG_KEY_0="url.https://x-access-token:${GH_TOKEN}@github.com/.insteadOf"
+          export GIT_CONFIG_VALUE_0="https://github.com/"
           npx gh-pages \
+            --silent \
             --dist dist \
             --branch gh-pages \
             --user "github-actions <github-actions@github.com>" \
