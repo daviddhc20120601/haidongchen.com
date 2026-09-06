@@ -1,0 +1,31 @@
+# Haidong Chen
+
+> Haidong Chen is a GPU AI Factory Principal Engineer focused on designing, commissioning, and tuning large-scale NVIDIA GPU infrastructure.
+
+This site contains Haidong Chen's professional profile, technical publications, talks, articles, robotics simulations, and books. Primary areas of expertise include GB200 and GB300 NVL72 systems, Blackwell and Hopper GPUs, InfiniBand and Spectrum-X fabrics, direct liquid cooling, cluster acceptance testing, and FP8/NVFP4 training and inference recipes.
+
+## Primary pages
+
+- [Home](https://haidongchen.com/): Professional overview and AI factory engineering expertise
+- [About](https://haidongchen.com/about): Career history, competencies, and selected achievements
+- [Publications](https://haidongchen.com/publications): Patents, whitepapers, and other publications
+- [Talks and writing](https://haidongchen.com/talks): Technical talks, tutorials, and articles
+- [Research](https://haidongchen.com/research): Current research interests
+- [Robot simulations](https://haidongchen.com/robot-simulations): Robotics and simulation projects
+- [Books](https://haidongchen.com/books): Long-form fiction and books
+
+## Key topics
+
+- GPU AI factory architecture and commissioning
+- NVIDIA Blackwell, Hopper, GB200, GB300, B200, H200, and H100
+- InfiniBand NDR/XDR, Spectrum-X, NCCL, and GPUDirect
+- Direct liquid cooling, CDU commissioning, thermal telemetry, PUE, and WUE
+- NeMo, Megatron-Core, Transformer Engine, TensorRT-LLM, vLLM, and SGLang
+- Generative AI agents, cloud infrastructure, data engineering, and robotics
+
+## Identity
+
+- [GitHub](https://github.com/daviddhc20120601)
+- [LinkedIn](https://www.linkedin.com/in/davidhaidongchen/)
+
+Content may be quoted with attribution and a link to the relevant canonical page.

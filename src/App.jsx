@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React, { Suspense, lazy } from "react";
 import Header from "./components/Header.jsx";
 import Sidebar from "./components/Sidebar.jsx";
+import Seo from "./components/Seo.jsx";
 // Home is the landing route — keep it in the initial bundle.
 import Home from "./pages/Home.jsx";
 
@@ -35,6 +36,7 @@ function RouteFallback() {
 function App() {
   return (
     <Router>
+      <Seo />
       <div className="app">
         <Header />
         <div className="layout-container">

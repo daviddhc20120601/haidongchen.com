@@ -1,7 +1,10 @@
 // scripts/generateJsonFromMarkdown.js
+// AI-assisted (Cursor) — review before merge.
 import fs from 'fs/promises';
 import path from 'path';
 import yaml from 'js-yaml';
+
+const SITE_URL = 'https://haidongchen.com';
 
 // Function to extract frontmatter from markdown content
 function extractFrontmatter(markdown) {
@@ -87,21 +90,137 @@ async function processDirectory(dirPath, outputFile) {
   }
 }
 
+function escapeXml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;');
+}
+
+function encodePath(...segments) {
+  return `/${segments.map((segment) => encodeURIComponent(segment)).join('/')}`;
+}
+
+function sitemapEntry(pathname, { lastmod, priority = '0.7', changefreq = 'monthly' } = {}) {
+  const parsedDate = lastmod ? new Date(lastmod) : null;
+  const validLastmod = parsedDate && !Number.isNaN(parsedDate.getTime())
+    ? `\n    <lastmod>${parsedDate.toISOString().slice(0, 10)}</lastmod>`
+    : '';
+
+  return `  <url>
+    <loc>${escapeXml(`${SITE_URL}${pathname}`)}</loc>${validLastmod}
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+}
+
+async function generateSitemap({ publications, talks, books, robotSimulations }) {
+  const entries = [
+    sitemapEntry('/', { priority: '1.0', changefreq: 'weekly' }),
+    sitemapEntry('/about', { priority: '0.9' }),
+    sitemapEntry('/publications', { priority: '0.8' }),
+    sitemapEntry('/talks', { priority: '0.9', changefreq: 'weekly' }),
+    sitemapEntry('/research', { priority: '0.8' }),
+    sitemapEntry('/robot-simulations', { priority: '0.7' }),
+    sitemapEntry('/books', { priority: '0.7', changefreq: 'weekly' }),
+    ...talks.map((item) =>
+      sitemapEntry(encodePath('talk', item.id), {
+        lastmod: item.date,
+        priority: '0.8',
+        changefreq: 'yearly',
+      })
+    ),
+    ...publications.map((item) =>
+      sitemapEntry(encodePath('publication', item.id), {
+        lastmod: item.date,
+        priority: '0.7',
+        changefreq: 'yearly',
+      })
+    ),
+    ...robotSimulations.map((item) =>
+      sitemapEntry(encodePath('robot-simulation', item.id), {
+        lastmod: item.date,
+        priority: '0.7',
+        changefreq: 'yearly',
+      })
+    ),
+  ];
+
+  for (const book of books) {
+    entries.push(
+      sitemapEntry(encodePath('book', book.id), {
+        lastmod: book.date,
+        priority: '0.7',
+        changefreq: book.status === '连载中' ? 'weekly' : 'yearly',
+      })
+    );
+
+    const bookDirectory = path.join('public/content/books', book.id);
+    try {
+      const files = await fs.readdir(bookDirectory);
+      const chapterIds = files
+        .filter((filename) => filename.endsWith('.md') && filename !== 'index.md')
+        .map((filename) => filename.replace(/\.md$/, ''))
+        .sort();
+
+      if (chapterIds.length > 0) {
+        entries.push(
+          sitemapEntry(encodePath('book', book.id, 'contents'), {
+            lastmod: book.date,
+            priority: '0.6',
+          })
+        );
+      }
+
+      for (const chapterId of chapterIds) {
+        entries.push(
+          sitemapEntry(encodePath('book', book.id, 'chapter', chapterId), {
+            lastmod: book.date,
+            priority: '0.5',
+            changefreq: 'yearly',
+          })
+        );
+      }
+    } catch {
+      // Single-file books do not have a directory or chapter routes.
+    }
+  }
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${entries.join('\n')}
+</urlset>
+`;
+
+  await fs.writeFile('public/sitemap.xml', sitemap);
+  console.log(`Generated public/sitemap.xml with ${entries.length} URLs`);
+}
+
 async function main() {
   // Create data directory if it doesn't exist
   await fs.mkdir('public/data', { recursive: true });
 
   // Process publications
-  await processDirectory('public/content/publications', 'public/data/publications.json');
+  const publications = await processDirectory(
+    'public/content/publications',
+    'public/data/publications.json'
+  );
 
   // Process talks
-  await processDirectory('public/content/talks', 'public/data/talks.json');
+  const talks = await processDirectory('public/content/talks', 'public/data/talks.json');
 
   // Process books
-  await processDirectory('public/content/books', 'public/data/books.json');
+  const books = await processDirectory('public/content/books', 'public/data/books.json');
 
   // Process robot simulations
-  await processDirectory('public/content/robot-simulations', 'public/data/robot-simulations.json');
+  const robotSimulations = await processDirectory(
+    'public/content/robot-simulations',
+    'public/data/robot-simulations.json'
+  );
+
+  await generateSitemap({ publications, talks, books, robotSimulations });
 }
 
 main().catch(err => console.error('Error generating JSON files:', err));
